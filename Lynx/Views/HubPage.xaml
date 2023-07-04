@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+    
+    <!--
+    <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:vm="clr-namespace:Lynx.ViewModels"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+             xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+			 x:Class="Lynx.Views.HubPage"
+			 x:DataType="vm:HubViewModel">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="5"
+            Padding="5"
+            VerticalOptions="StartAndExpand">
+            <HorizontalStackLayout Spacing="8" HorizontalOptions="Start">
+                
+            <Frame StyleClass="PrimaryContainer">
+                <Label Text="Hello, World!" />
+            </Frame>
+            <Frame StyleClass="PrimaryContainer">
+                <Label Text="Hello, World!" />
+            </Frame>
+            <Frame StyleClass="PrimaryContainer">
+                <Label Text="Hello, World!" />
+            </Frame>
+            </HorizontalStackLayout>
+            <BoxView StyleClass="Divider" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+    -->
+<uranium:UraniumContentPage 
+            x:Class="Lynx.Views.HubPage"
+            x:DataType="vm:HubViewModel"
+            xmlns:vm="clr-namespace:Lynx.ViewModels"
+            xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+            xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+            xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material">
+    <uranium:UraniumContentPage.Resources>
+        <Style TargetType="Frame">
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SecondaryContainer}, Dark={StaticResource SecondaryContainerDark}}" />
+        </Style>
+    </uranium:UraniumContentPage.Resources>
+    <ScrollView>
+        <VerticalStackLayout
+        Spacing="5"
+        Padding="5"
+        VerticalOptions="StartAndExpand">
+            <HorizontalStackLayout Spacing="4"  Padding="5" HorizontalOptions="Center" >
+                <StackLayout.Effects>
+                    <uranium:BlurEffect AccentColor="Purple"/>
+                </StackLayout.Effects>
+           
+                <Frame Margin="4" Padding="12">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=GoToRequestsCommand}" CommandParameter="{Binding .}" />
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="4"  Padding="5" HorizontalOptions="Center" >
+                        <Image Source="{FontImageSource Glyph={x:Static m:MaterialRegular.Quick_contacts_mail},FontFamily=MaterialRegular, Color=orange}" />
+                        <Label Text="Requests"    TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}" />
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <Frame Margin="4" Padding="12">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer  Command="{Binding Path=GoToDepartureCommand}" CommandParameter="{Binding .}" />
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="4"  Padding="5" HorizontalOptions="Center" >
+                        <Image Source="{FontImageSource Glyph={x:Static m:MaterialRegular.Forest},FontFamily=MaterialRegular, Color=green}" />
+                        <Label Text="Departure"   TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}" />
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <Frame Margin="4" Padding="12" >
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer  Command="{Binding Path=GoToCrewsCommand}" CommandParameter="{Binding .}" />
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="4"  Padding="5" HorizontalOptions="Center" >
+                        <Image Source="{FontImageSource Glyph={x:Static m:MaterialRegular.People},FontFamily=MaterialRegular, Color=Blue}" />
+                        <Label Text="Crews"  TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}" />
+                    </VerticalStackLayout>
+                </Frame>
+
+
+            </HorizontalStackLayout>
+            <BoxView StyleClass="Divider" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+    <uranium:UraniumContentPage.Attachments>
+        <material:BackdropView Title="Profile"  IconImageSource="{FontImageSource Glyph={x:Static m:MaterialRegular.People},FontFamily=MaterialRegular, Color=Blue}"  >
+            <VerticalStackLayout VerticalOptions="Center" >
+                <Frame Margin="4" Padding="12">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer />
+                    </Frame.GestureRecognizers>
+                    <HorizontalStackLayout Spacing="4"  Padding="5" HorizontalOptions="Center" VerticalOptions="Center"  >
+                        <Image Source="{FontImageSource Glyph={x:Static m:MaterialRound.People},FontFamily=MaterialRound, Color=Blue}" />
+                        <Label Text="Profile"  Padding="5"  TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}" />
+                    </HorizontalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </material:BackdropView>
+    </uranium:UraniumContentPage.Attachments>
+</uranium:UraniumContentPage>
+

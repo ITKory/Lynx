@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+	x:Class="Lynx.AppShell"
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:views="clr-namespace:Lynx.Views"
+    xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+    xmlns:vm="clr-namespace:Lynx.ViewModels"
+	xmlns:local="clr-namespace:Lynx">
+ 
+    <TabBar>
+		<ShellContent
+			Title="Stats"
+			Icon="{FontImageSource Glyph={x:Static m:MaterialRegular.Bar_chart},FontFamily=MaterialRegular, Color=green}"
+			ContentTemplate="{DataTemplate views:StatsPage}" />
+		<ShellContent
+			Title="Map"
+			Icon="{FontImageSource Glyph={x:Static m:MaterialRegular.Map},FontFamily=MaterialRegular, Color=green}"
+			ContentTemplate="{DataTemplate views:MapPage}" />
+		<ShellContent
+			Title="Hub"
+			Icon="{FontImageSource Glyph={x:Static m:MaterialRegular.Hub},FontFamily=MaterialRegular, Color=green}"
+			ContentTemplate="{DataTemplate views:HubPage}" />
+        <ShellContent
+		Title="Profile"
+		BindingContext="{vm:ProfileViewModel}"
+		Icon="{FontImageSource Glyph={x:Static m:MaterialRegular.Forest},FontFamily=MaterialRegular, Color=green}"
+		ContentTemplate="{DataTemplate views:ProfilePage}" />
+        
+    </TabBar>
+
+
+</Shell>

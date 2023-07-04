@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+             xmlns:model="clr-namespace:Domain.Models;assembly=Domain"
+             xmlns:controls="clr-namespace:Lynx.Controls"
+             x:Class="Lynx.Views.DeparturePage"
+             xmlns:vm="clr-namespace:Lynx.ViewModels"
+             x:DataType="vm:DepartureViewModel"
+             Title="DeparturePage">
+
+
+    <VerticalStackLayout>
+        
+        <material:TabView>
+
+            <material:TabItem Title="Tab One">
+                <material:TabItem.Content>
+                        <Grid
+                              ColumnDefinitions="{OnPlatform Default='.60*,.40*', Android='*'}"
+                              ColumnSpacing="5"
+                              RowDefinitions="*,Auto"
+                              RowSpacing="0"
+                               >
+                            <CollectionView
+                                 ItemsSource="{Binding Departures}"
+                                 BackgroundColor="Transparent"
+                                 SelectionMode="None">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="model:SearchDeparture">
+                                        <Grid Padding="10">
+                                            <controls:ItemCardView/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                    </Grid>
+                </material:TabItem.Content>
+            </material:TabItem>
+
+
+            <material:TabItem Title="Tab Two">
+                <material:TabItem.ContentTemplate>
+                    <DataTemplate>
+                        <Label Text="Second Tab" />
+                    </DataTemplate>
+                </material:TabItem.ContentTemplate>
+            </material:TabItem>
+
+            <material:TabItem Title="Tab Three">
+                <material:TabItem.ContentTemplate>
+                    <DataTemplate>
+                        <Label Text="Third Tab" />
+                    </DataTemplate>
+                </material:TabItem.ContentTemplate>
+            </material:TabItem>
+        </material:TabView>
+
+
+    </VerticalStackLayout>
+
+
+</ContentPage>

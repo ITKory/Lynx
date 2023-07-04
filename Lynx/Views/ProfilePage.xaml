@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:vm="clr-namespace:Lynx.ViewModels"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+             xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+			 x:Class="Lynx.Views.ProfilePage"
+			 x:DataType="vm:ProfileViewModel">
+
+    <Grid Margin="20" RowDefinitions="200, *">
+        <VerticalStackLayout Spacing="10">
+            <Image
+              HeightRequest="50"
+              Source="{FontImageSource Glyph={x:Static m:MaterialRound.Person},FontFamily=MaterialRound, Color=Green, Size=60}"
+              WidthRequest="80" />
+            <Label
+              FontAttributes="Bold"
+              FontSize="Large"
+              HorizontalOptions="Center"
+              Text="John Doe"
+              TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}" />
+            <Label
+              HorizontalOptions="Center"
+              Text="j.doe@gmail.com"
+             TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}" />
+            <Button
+              BackgroundColor="{StaticResource Secondary}"
+              CornerRadius="20"
+              FontAttributes="Bold"
+              HorizontalOptions="Center"
+              Text="Edit profile"
+              TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}" />
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="1" Spacing="20">
+            <Grid RowDefinitions="40, Auto">
+                <Label
+                  FontSize="Medium"
+                  Text="General"
+                  TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}" />
+                <Border
+                  Grid.Row="1"
+                  Padding="20"
+                  BackgroundColor="{StaticResource Gray100}"
+                  StrokeThickness="0">
+                    <Grid
+                      ColumnDefinitions=".6*,.4*"
+                      RowDefinitions="*,*"
+                      RowSpacing="20">
+
+                        <ImageButton
+HorizontalOptions="Start"
+Source="{FontImageSource Glyph={x:Static m:MaterialRound.Lock_person},FontFamily=MaterialRegular}"
+VerticalOptions="Center" />
+                       
+                        <Label
+                          Grid.Row="0"
+                          Margin="50,0,0,0"
+                          FontSize="Medium"
+                          Text="Security"
+                         TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}" />
+                        <HorizontalStackLayout
+                          Grid.Row="0"
+                          Grid.Column="1"
+                          HorizontalOptions="End">
+                            <Label
+                              Grid.Row="0"
+                              Grid.Column="1"
+                              FontSize="Small"
+                              Text="FaceID"
+                              TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}"
+                              VerticalOptions="Center" />
+                            <ImageButton HorizontalOptions="End" 
+                                         VerticalOptions="Center"
+                                         Grid.Row="0"
+                                         Grid.Column="1"
+                                         Source="{FontImageSource Glyph={x:Static m:MaterialRegular.Chevron_right},FontFamily=MaterialRegular}">
+                            </ImageButton>
+                        </HorizontalStackLayout>
+
+                        <ImageButton
+HorizontalOptions="Start"
+Grid.Row="1"
+Source="{FontImageSource Glyph={x:Static m:MaterialRound.Cloud_sync},FontFamily=MaterialRegular}"
+VerticalOptions="Center" />
+                       
+                        <Label
+                          Grid.Row="1"
+                          Margin="50,0,0,0"
+                          FontSize="Medium"
+                          Text="iCloud sync"
+                          TextColor="White" />
+                        <Switch
+                          Grid.Row="1"
+                          Grid.Column="1"
+                          HeightRequest="10"
+                          HorizontalOptions="End"
+                          OnColor="{StaticResource Secondary}"
+                          ThumbColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}"
+                          VerticalOptions="Start" />
+                    </Grid>
+
+                </Border>
+            </Grid>
+            <Grid RowDefinitions="40, Auto">
+                <Label
+                  FontSize="Medium"
+                  Text="My subscription"
+                  TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}" />
+                <Border
+                  Grid.Row="1"
+                  Padding="20"
+                  BackgroundColor="{StaticResource Gray100}"
+                  StrokeThickness="0">
+                    <Grid
+                      ColumnDefinitions=".6*,.4*"
+                      RowDefinitions="*,*,*"
+                      RowSpacing="20">
+                        <ImageButton
+     HorizontalOptions="Start"
+     Source="{FontImageSource Glyph={x:Static m:MaterialRound.Sort},FontFamily=MaterialRegular}"
+     VerticalOptions="Center" />
+                    
+                        <Label
+                          Grid.Row="0"
+                          Margin="50,0,0,0"
+                          FontSize="Medium"
+                          Text="Sorting"
+                         TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}"/>
+                        <HorizontalStackLayout
+                          Grid.Row="0"
+                          Grid.Column="1"
+                          HorizontalOptions="End">
+                            <Label
+                              FontSize="Small"
+                              Text="Date"
+                              TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}"
+                              VerticalOptions="Center" />
+                            <ImageButton HorizontalOptions="End" 
+                                         VerticalOptions="Center"
+                                         Source="{FontImageSource Glyph={x:Static m:MaterialRegular.Chevron_right},FontFamily=MaterialRegular}">
+                            </ImageButton>
+                        </HorizontalStackLayout>
+                     
+                        <ImageButton
+                          HorizontalOptions="Start"
+                          Grid.Row="1"
+                          Source="{FontImageSource Glyph={x:Static m:MaterialRound.Bar_chart},FontFamily=MaterialRegular}"
+                          VerticalOptions="Center" />
+                        <Label
+                          Grid.Row="1"
+                          Margin="50,0,0,0"
+                          FontSize="Medium"
+                          Text="Summary"
+                          TextColor="White" />
+                        <HorizontalStackLayout
+                          Grid.Row="1"
+                          Grid.Column="1"
+                          HorizontalOptions="End">
+                            <Label
+                              FontSize="Small"
+                              Text="Average"
+                              TextColor="{StaticResource Gray30}"
+                              VerticalOptions="Center" />
+                            <ImageButton HorizontalOptions="End" 
+                                         VerticalOptions="Center"
+                                         Source="{FontImageSource Glyph={x:Static m:MaterialRegular.Chevron_right},FontFamily=MaterialRegular}">
+                            </ImageButton>
+                        </HorizontalStackLayout>
+                        <ImageButton
+                            HorizontalOptions="Start"
+                            Grid.Row="2"
+                            Source="{FontImageSource Glyph={x:Static m:MaterialRound.Currency_exchange},FontFamily=MaterialRegular}"
+                            VerticalOptions="Center" />
+                      
+                        <Label
+                          Grid.Row="2"
+                          Margin="50,0,0,0"
+                          FontSize="Medium"
+                          Text="Default currency"
+                          TextColor="White" />
+
+                        <HorizontalStackLayout
+                          Grid.Row="2"
+                          Grid.Column="1"
+                          HorizontalOptions="End">
+                            <Label
+                              FontSize="Small"
+                              Text="USD ($)"
+                             TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}"
+                              VerticalOptions="Center" />
+                            <ImageButton HorizontalOptions="End" 
+                                         VerticalOptions="Center"
+                                         Source="{FontImageSource Glyph={x:Static m:MaterialRegular.Chevron_right},FontFamily=MaterialRegular}">
+                            </ImageButton>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
+            </Grid>
+        </VerticalStackLayout>
+    </Grid>
+    <!--   <StackLayout Padding="20">
+        
+   ItemsSource="{Binding FruitSuggestions}"
+    <material:AutoCompleteTextField Title="Fruit" 
+                                    >
+        <material:AutoCompleteTextField.ItemsSource>
+            <x:String>Apple</x:String>
+            <x:String>Orange</x:String>
+            <x:String>Banana</x:String>
+            <x:String>Strawberry</x:String>
+            <x:String>Watermelon</x:String>
+            <x:String>Cherry</x:String>
+            <x:String>Blueberry</x:String>
+            <x:String>Blackberry</x:String>
+            <x:String>Pineapple</x:String>
+            <x:String>Coconut</x:String>
+            <x:String>Apricot</x:String>
+            <x:String>Avocado</x:String>
+            <x:String>Plum</x:String>
+            <x:String>Fig</x:String>
+            <x:String>Grape</x:String>
+            <x:String>Guava</x:String>
+            <x:String>Lemon</x:String>
+            <x:String>Lime</x:String>
+            <x:String>Mango</x:String>
+            <x:String>Passion Fruit</x:String>
+            <x:String>Peach</x:String>
+            <x:String>Pear</x:String>
+            <x:String>Pomegranate</x:String>
+            <x:String>Raspberry</x:String>
+            <x:String>Tomato</x:String>
+        </material:AutoCompleteTextField.ItemsSource>
+    </material:AutoCompleteTextField>
+        <BoxView StyleClass="Divider" />
+    <material:AutoCompleteTextField
+    Title="good icon"
+    Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.People}}"/>
+        <BoxView StyleClass="Divider" />
+        <Frame StyleClass="PrimaryContainer">
+            <Label Text="Hello, World!" />
+        </Frame>
+
+
+    </StackLayout>
+    -->
+
+</ContentPage>
