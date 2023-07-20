@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Lynx.Views.LoginPage"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+             xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
+             xmlns:vm="clr-namespace:Lynx.ViewModels"
+             x:DataType="vm:LoginViewModel"
+             Shell.NavBarIsVisible="False"
+             Title="{Binding Title}">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!--  Welcome  animation   -->
+        <VerticalStackLayout
+            Margin="0,70,0,0"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            >
+            <skia:SKLottieView  
+                   RepeatMode="Reverse"
+                   Source="person.json"
+                   WidthRequest="150"
+                   HeightRequest="150"/>
+        </VerticalStackLayout>
+        <!--  Login Container  -->
+        <VerticalStackLayout
+            Grid.Row="1"
+            Spacing="20"
+            VerticalOptions="Center">
+            <Border
+                Margin="20,0"
+                Padding="20"
+                BackgroundColor="{StaticResource ControlBackground}"
+                Shadow="{StaticResource ControlShadow}"          
+                Stroke="{StaticResource Gray100}"
+                StrokeShape="RoundRectangle 10"
+                StrokeThickness="1">
+                <VerticalStackLayout Spacing="10">    
+                    <material:TextField
+                            Title="E-mail"
+                            AllowClear="True"
+                            Text="{Binding UserLogin}"
+                            Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Email}}"/>  
+                    <material:TextField
+                            Title="Password"
+                            Text="{Binding UserPassword}"
+                            AllowClear="True"
+                            IsPassword="True"
+                            Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Password}}"/>
+
+                    <Button Command="{Binding LoginCommand}" Text="Login" />
+                </VerticalStackLayout>
+            </Border>
+            <Label
+                FontAttributes="Bold"
+                FontSize="Subtitle"
+                HorizontalOptions="Center"
+                Text="Forgot Password?"
+                TextColor="{StaticResource Primary}"
+                TextDecorations="Underline">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}" NumberOfTapsRequired="1" />
+                </Label.GestureRecognizers>
+            </Label>
+        </VerticalStackLayout>
+        <!--  Registration Text  -->
+        <HorizontalStackLayout
+            Grid.Row="2"
+            Margin="0,0,0,40"
+            HorizontalOptions="Center"
+            Spacing="5"
+            VerticalOptions="Center">
+            <Label
+                x:Name="lblRegistration"
+                FontSize="Subtitle"
+                Text="Don't have an account? " />
+            <Label
+                FontSize="Subtitle"
+                Text="Register"
+                TextColor="{StaticResource Primary}"
+                TextDecorations="Underline">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding RegistrationCommand}" NumberOfTapsRequired="1" />
+                </Label.GestureRecognizers>
+            </Label>
+        </HorizontalStackLayout>
+    </Grid>
+
+</ContentPage>

@@ -18,16 +18,7 @@
             BarcodeFormat="QR_CODE"
             Barcode="{Binding BarCodeContent}"
             />
-
-        <cv:CameraView x:Name="camV" 
-                    WidthRequest="300"
-                    HeightRequest="200"
-                    BarCodeOptions="{Binding BarCodeOptions}"
-                    BarCodeResults="{Binding BarCodeResults, Mode=OneWayToSource}"
-                    BarCodeDetectionEnabled="True"
-                    /> 
-
-        <Label Text="{Binding BarcodeText}" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center" />
+        <Label Text="{Binding  Departure.Id}" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center" />
     </VerticalStackLayout>
     
 </ContentPage>

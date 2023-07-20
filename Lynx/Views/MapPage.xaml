@@ -9,6 +9,6 @@
     	<Map x:Name="TheMap" />
     -->
 
-    <WebView Source="{Binding MapSource}"/>
+    <WebView Source="{Binding MapSource}" />
 
 </ContentPage>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Lynx.Views.RegisterPage"
+             xmlns:vm ="clr-namespace:Lynx.ViewModels"
+             xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             x:DataType="vm:RegisterViewModel"
+             BindingContext="{vm:RegisterViewModel}"
+             Title="{Binding  Title}">
+    <VerticalStackLayout>
+        <cv:CameraView x:Name="camV" 
+                WidthRequest="300"
+                HeightRequest="200"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                BarCodeOptions="{Binding BarCodeOptions}"
+                BarCodeResults="{Binding BarCodeResults, Mode=OneWayToSource}"
+                BarCodeDetectionEnabled="True"
+                />
+        <Label Text="{Binding BarcodeText}"/>
+    </VerticalStackLayout>
+</ContentPage>

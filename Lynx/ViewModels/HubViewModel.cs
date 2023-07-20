@@ -18,5 +18,10 @@ public partial class HubViewModel : BaseViewModel
     private async void GoToDeparture()
     {
         await Shell.Current.GoToAsync($"{nameof(DeparturePage)}", true);
+    } 
+    [RelayCommand]
+    private async void GoToRegister()
+    {
+        await Shell.Current.GoToAsync($"{nameof(RegisterPage)}", true);
     }
 }

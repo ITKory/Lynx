@@ -7,25 +7,28 @@
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
     xmlns:vm="clr-namespace:Lynx.ViewModels"
 	xmlns:local="clr-namespace:Lynx">
- 
+
+   <!--<ShellContent
+			Title="Welocome!"
+			Icon="{FontImageSource Glyph={x:Static m:MaterialRegular.Bar_chart},FontFamily=MaterialRegular, Color=green}"
+			ContentTemplate="{DataTemplate views:LoginPage}" />-->
+    
     <TabBar>
 		<ShellContent
 			Title="Stats"
+            Route="StatsPage"
 			Icon="{FontImageSource Glyph={x:Static m:MaterialRegular.Bar_chart},FontFamily=MaterialRegular, Color=green}"
 			ContentTemplate="{DataTemplate views:StatsPage}" />
 		<ShellContent
 			Title="Map"
 			Icon="{FontImageSource Glyph={x:Static m:MaterialRegular.Map},FontFamily=MaterialRegular, Color=green}"
 			ContentTemplate="{DataTemplate views:MapPage}" />
-		<ShellContent
-			Title="Hub"
-			Icon="{FontImageSource Glyph={x:Static m:MaterialRegular.Hub},FontFamily=MaterialRegular, Color=green}"
-			ContentTemplate="{DataTemplate views:HubPage}" />
+	 
         <ShellContent
 		Title="Profile"
 		BindingContext="{vm:ProfileViewModel}"
 		Icon="{FontImageSource Glyph={x:Static m:MaterialRegular.Forest},FontFamily=MaterialRegular, Color=green}"
-		ContentTemplate="{DataTemplate views:ProfilePage}" />
+		ContentTemplate="{DataTemplate views:ProfilePage}" />    
         
     </TabBar>
 
