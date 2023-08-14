@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	         xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+             xmlns:vm="clr-namespace:Lynx.ViewModels"
+             x:DataType="vm:RequestViewModel"
+             x:Class="Lynx.Controls.AddCardView">
+    <Border
+        Padding="5"
+        StrokeThickness="2"
+        BackgroundColor="Transparent"
+        StrokeDashArray="5,1"
+        StrokeDashOffset="1"
+        WidthRequest="240"
+        >
+  
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="20" />
+        </Border.StrokeShape>
+            <Border.GestureRecognizers>
+            <TapGestureRecognizer NumberOfTapsRequired="1" 
+                                      Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BaseViewModel}}, Path=GoToCreateRequestCommand}"
+                                      CommandParameter="{Binding .}" />
+        </Border.GestureRecognizers>
+            <Image Source="{FontImageSource Glyph={x:Static m:MaterialRegular.Add},FontFamily=MaterialRegular, Color={StaticResource Gray300}}" HorizontalOptions="Center"  VerticalOptions="Center"  />
+    </Border>
+</ContentView>

@@ -11,6 +11,7 @@ public partial class DepartureDetailPage : ContentPage
     protected   override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
-        ViewModel.LoadMap();
+        ViewModel.LoadParticipantsCommand.Execute(null);
+        ViewModel.LoadMapCommand.Execute(null);
     }
 }

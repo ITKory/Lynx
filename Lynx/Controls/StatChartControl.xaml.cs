@@ -12,14 +12,6 @@ public partial class StatChartControl : ContentView
     public StatChartControl()
 	{
 		InitializeComponent();
-		MyChart.Series =   new ISeries[]
-  {
-    new ColumnSeries<int>
-    {
-         Values = new [] { 6, 4, 8 },
-        MaxBarWidth = 30,
-        
-    }
-};
+
     }
 }

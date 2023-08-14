@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Lynx.Views.CreateRequestPage"
+             xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+             xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
+             xmlns:vm="clr-namespace:Lynx.ViewModels"
+             xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+             x:DataType="vm:CreateRequestViewModel"
+             Title="Create Request">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <ScrollView  Grid.Row="1"
+                    Margin="20"
+                    VerticalOptions="Center">
+            <VerticalStackLayout
+            >
+                <Border
+                Margin="20,0"
+                Padding="20"
+                Stroke="{StaticResource Gray100}"
+                StrokeShape="RoundRectangle 10"
+                StrokeThickness="1">
+                    <VerticalStackLayout Spacing="10">
+                        <material:TextField Title="Nmae" Text="{Binding  Name  }" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Person}}">
+                            <validation:RequiredValidation />
+                        </material:TextField>
+                        
+                        <material:EditorField Title="Comment" Text="{Binding  Comment  }" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Edit}}"/>
+                        
+                        <material:EditorField Title="Face" Text="{Binding  Face  }" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Face}}"/>
+
+                        <material:DatePickerField Title="Birthday" AllowClear="True"  Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Date_range}}" Date="{Binding Birthday}"/>
+
+                        <material:DatePickerField Title="Date of lose" AllowClear="True"  Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Date_range}}" Date="{Binding DateOfLose}"/>
+
+                        <material:TextField Text="{Binding HomeLocation}" Title="Home Location"         Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Location_on}}" />
+
+                        <material:TextField Text="{Binding LoseLocation}" Title="Lose Location"         Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Map}}"/>
+
+                        <material:AutoCompleteTextField 
+                                  Title="City"
+                                  ItemsSource="{Binding Cities}"
+                                  Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Location_city}}"
+                                  Text="{Binding City}">
+                            <material:AutoCompleteTextField.Validations>
+                                <validation:RequiredValidation />
+                            </material:AutoCompleteTextField.Validations>
+                        </material:AutoCompleteTextField>
+                        
+                        <material:TextField Title="Phone" Text="{Binding PhoneNumber, StringFormat='{}{0:(###)###-####}'}" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Phone}}">
+                            <validation:NumericValidation/>
+                        </material:TextField>
+                        <material:TextField Title="Relatives phone" Text="{Binding RelativesPhoneNumber, StringFormat='{}{0:(###)###-####}'}" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Phone}}">
+                            <validation:NumericValidation/>
+                        </material:TextField>
+                        
+                        <Label Text="Informer" FontAttributes="Bold" FontSize="Medium"/>
+
+                        <material:TextField Title="Phone" Text="{Binding InformerPhoneNumber, StringFormat='{}{0:(###)###-####'}" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Phone}}">
+                        <validation:NumericValidation/>
+                        </material:TextField>
+                        <material:TextField Title="Relatives phone" Text="{Binding InformerRelativesPhoneNumber , StringFormat='{}{0:(###)###-####}'}" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Phone}}">
+                            <validation:NumericValidation/>
+                        </material:TextField>
+
+                        <material:TextField Title="Nmae"  Text="{Binding  InformerName  }" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Person}}">
+                            <validation:RequiredValidation />
+                        </material:TextField>
+                        
+                        <Button Command="{Binding  CreateRequestCommand}" Text="Create" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

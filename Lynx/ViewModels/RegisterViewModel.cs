@@ -1,23 +1,28 @@
 ﻿using Camera.MAUI;
 using Camera.MAUI.ZXingHelper;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Views;
 using Domain.Models;
+using Lynx.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Microsoft.Maui.ApplicationModel.Permissions;
+
 
 namespace Lynx.ViewModels
 {
     public partial class RegisterViewModel:BaseViewModel
     {
         JsonSerializerOptions _serializerOptions;
+        LynxApi _lynxService;
 
         [ObservableProperty]
         BarcodeDecodeOptions barCodeOptions;
         [ObservableProperty]
-        SearchDeparture departure;
+        SeekerRegistration seeker;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(NumCameras))]
@@ -40,8 +45,16 @@ namespace Lynx.ViewModels
                 barCodeResults = value;
                 if (barCodeResults != null && barCodeResults.Length > 0)
                 {
-                    Departure = JsonSerializer.Deserialize<SearchDeparture>(barCodeResults[0].Text, _serializerOptions);
-                    BarcodeText = barCodeResults[0].Text;
+                    Seeker = JsonSerializer.Deserialize<SeekerRegistration>(barCodeResults[0].Text);
+                    BarcodeText = barCodeResults[0].Text;   
+                    try
+                    {
+                        _lynxService.RegistrationSeekerAsync("api/departure/registration", Seeker.UserId, Seeker.SearchDepartureId,Seeker.StartAt);
+                   
+                    }catch(Exception  ex)
+                    {
+                       Shell.Current.DisplayAlert("Error:" ,ex.Message,"Ok");
+                    }
                 }
                 else
                     BarcodeText = "No barcode detected";
@@ -56,9 +69,17 @@ namespace Lynx.ViewModels
             if (NumCameras > 0)
                 Camera = Cameras.First();
         }
+       
+        public async void Detected()
+        {
+           await Toast.Make("Success registration seeker").Show();
+
+           await Shell.Current.GoToAsync(nameof(StatsPage));
+        }
         public RegisterViewModel()
         {
             Title = "Register seeker";
+            _lynxService = new LynxApi();
             BarCodeOptions = new Camera.MAUI.ZXingHelper.BarcodeDecodeOptions
             {
                 AutoRotate = true,

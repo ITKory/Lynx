@@ -13,6 +13,8 @@ public partial class Crew
 
     public bool IsActive { get; set; }
 
+    public bool IsArrived { get; set; }
+
     public virtual ICollection<CrewMate> CrewMates { get; set; } = new List<CrewMate>();
 
     public virtual SearchDeparture SearchDeparture { get; set; } = null!;

@@ -3,63 +3,87 @@ using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore;
 using SkiaSharp;
 using Lynx.Models;
+using UraniumUI.Icons.MaterialIcons;
+using LiveChartsCore.Kernel.Sketches;
+using Microsoft.Maui.Dispatching;
+using Lynx.Service;
 
 namespace Lynx.ViewModels;
 
-public partial class StatsViewModel : BaseViewModel
+public partial class StatsViewModel : BaseOptionForCollectionViewModel
 {
-    public SpendingBudget AutoTransport { get; set; }
-    public SpendingBudget Entertainment { get; set; }
-    public SpendingBudget Security { get; set; }
-    public IEnumerable<ISeries> DegreesGaugePieSeries { get; set; }
- 
-    public StatsViewModel()
+
+    [ObservableProperty]
+    List<StatItemModel> statItems;
+
+
+    public StatsViewModel(LynxApi lynxApi) : base(lynxApi)
     {
-       
-        AutoTransport = new SpendingBudget()
+        StatItems = new List<StatItemModel>()
         {
-            Title = "Auto & transport",
-            Subtitle = "$375 left to spend",
-            Cost = "$254.99",
-            TotalCost = "of 400",
-            Progress = 0.2,
-            ProgressColor = Color.FromRgb(0, 250, 217)
-        };
-
-        Entertainment = new SpendingBudget()
+            new  StatItemModel
         {
-            Title = "Entertainment",
-            Subtitle = "$375 left to spend",
-            Cost = "$50.99",
-            TotalCost = "of 600",
-            Progress = 0.5,
-            ProgressColor = Color.FromRgb(255, 166, 153)
-        };
+                Title = "User",
+                Icon = MaterialRegular.Add_chart,
+                ChartSeries =    new ISeries[]
+                              {
+                                new ColumnSeries<int>
+                                {
+                                     Values = new [] { 6, 8, 2 },
+                                     MaxBarWidth = 30,
+                                }
+                              },
+                IsVisible = IsSeeker
 
-        Security = new SpendingBudget()
+    },
+            new  StatItemModel
         {
-            Title = "Security",
-            Subtitle = "$375 left to spend",
-            Cost = "$5.99",
-            TotalCost = "of 600",
-            Progress = 0.8,
-            ProgressColor = Color.FromRgb(94, 0, 245)
-        };
+                Title = "Requests ",
+                Icon = MaterialRegular.List,      
+                ChartSeries =    new ISeries[]
+                              {
+                                new ColumnSeries<int>
+                                {
+                                     Values = new [] { 6, 5, 8 },
+                                     MaxBarWidth = 30,
+                                }
+                              },
+                IsVisible = IsAdmin
+        },
+     };
 
-        DegreesGaugePieSeries = new GaugeBuilder()
-        .WithInnerRadius(280)
-        .WithBackgroundInnerRadius(220)
-        .WithLabelsSize(0)
-        .WithLabelsPosition(PolarLabelsPosition.ChartCenter)
-        .AddValue(20, "gauge value", new SKColor(0, 250, 217), SKColors.White)
-        .AddValue(50, "gauge value", new SKColor(255, 121, 102), SKColors.White)
-        .AddValue(85, "gauge value", new SKColor(94, 0, 245), SKColors.White)
-        .BuildSeries();
+
     }
+
+    [RelayCommand]
+    private async void GoToDetails(ListItemModel item)
+    {
+        var fullDepartureInfo = await lynxService.GetDepartureByIdAsync($"api/departure/get?departureId={item.Id}");
+        if (fullDepartureInfo != null)
+        {
+            await Shell.Current.GoToAsync(nameof(DepartureDetailPage), true, new Dictionary<string, object>
+            {
+                { "selectedDeparture", fullDepartureInfo }
+            });
+        }
+        else
+        {
+            await Shell.Current.DisplayAlert("Server error", "server error", "ok");
+        }
+
+   }
+
+
     [RelayCommand]
     private async void GoToRequests()
     {
-        await Shell.Current.GoToAsync($"{nameof(RequestsPage)}", true);
+        var items = await lynxService.GetRefreshDataListAsync<ListItemModel>("api/request/get/all");
+
+        await Shell.Current.GoToAsync(nameof(RequestsPage), true, new Dictionary<string, object>
+            {
+                { "Requests", items   }
+            });
+
     }
     [RelayCommand]
     private async void GoToCrews()
@@ -67,7 +91,7 @@ public partial class StatsViewModel : BaseViewModel
         await Shell.Current.GoToAsync($"{nameof(CrewsPage)}", true);
     }
     [RelayCommand]
-    private async void GoToDeparture()
+    private async void GoToStats()
     {
         await Shell.Current.GoToAsync($"{nameof(DeparturePage)}", true);
     }

@@ -3,37 +3,117 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Lynx.Views.RequestsPage"
              xmlns:vm ="clr-namespace:Lynx.ViewModels"
+             xmlns:model="clr-namespace:Lynx.Models"
+             xmlns:controls="clr-namespace:Lynx.Controls"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
-             x:DataType="vm:RequestsViewModel"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+             x:DataType="vm:RequestViewModel"
              Title="{Binding  Title}">
-    <VerticalStackLayout>
-        <material:TabView>
+    <Border           Stroke="transparent"
+                      Margin="10"
+                      StrokeShape="{RoundRectangle CornerRadius=15}"
+                      BackgroundColor="White">
+        <RefreshView IsRefreshing="{Binding IsRefresh}" Command="{Binding RefreshDataCommand}">
+        <ScrollView>
+            <VerticalStackLayout>
+                <material:TextField
+                    Margin="20"
+                    Title="{Binding Title}"
+                    AllowClear="True"
+                    Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Search}}"/>
 
-            <material:TabItem Title="Tab One">
-                <material:TabItem.ContentTemplate>
-                    <DataTemplate>
-                        <Label Text="First Tab" />
-                    </DataTemplate>
-                </material:TabItem.ContentTemplate>
-            </material:TabItem>
+                <controls:AddCardView IsVisible="{Binding IsAdmin}"  />
 
+                <material:TabView Margin="10"  >
+                    <material:TabItem Title="Open requests">
+                        <material:TabItem.Content>
+                            <CollectionView
+                                    ItemsSource="{Binding ActiveItems}"
+                                    BackgroundColor="Transparent"
+                                    SelectionMode="None">
+                                <CollectionView.ItemTemplate >
+                                    <DataTemplate x:DataType="model:ListItemModel">
+                                            <SwipeView>
+                                                <SwipeView.LeftItems>
+                                                    <SwipeItems>
+                                                        <SwipeItem Text="Close"
+                                 IconImageSource="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Close}}"
+                                 BackgroundColor="#ffebd3"
+                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RequestViewModel}} , Path = CloseRequestCommand}"
+                                 CommandParameter="{Binding .}"
+                                  />
 
-            <material:TabItem Title="Tab Two">
-                <material:TabItem.ContentTemplate>
-                    <DataTemplate>
-                        <Label Text="Second Tab" />
-                    </DataTemplate>
-                </material:TabItem.ContentTemplate>
-            </material:TabItem>
+                                                        <SwipeItem Text="Create departure"
+                                IconImageSource="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Forest}}"
+                                BackgroundColor="#d3f2db"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RequestViewModel}} , Path = CreateDepartureCommand}"
+                                CommandParameter="{Binding .}"
+                                  />
+                                                    </SwipeItems>
+                                                </SwipeView.LeftItems>
+                                                    <SwipeView.RightItems>
+                                                        <SwipeItems>
+                                                            <SwipeItem Text="Delete"
+                                                                      
+                                IconImageSource="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Delete}}"
+                                BackgroundColor="#ffbfbf"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RequestViewModel}} , Path =RemoveRequestCommand}"
+                                CommandParameter="{Binding .}"
+                                  />
+                                                        </SwipeItems>
+                                                    </SwipeView.RightItems>
+                                                <controls:ItemCardView  />
+                                            </SwipeView>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </material:TabItem.Content>
+                    </material:TabItem>
+                    
+                    <material:TabItem Title="Close requests">
+                        <material:TabItem.Content>
+                            <CollectionView
+                                   ItemsSource="{Binding DisableItems}"
+                                   BackgroundColor="Transparent"
+                                   SelectionMode="None">
+                                <CollectionView.ItemTemplate >
+                                    <DataTemplate x:DataType="model:ListItemModel">
 
-            <material:TabItem Title="Tab Three">
-                <material:TabItem.ContentTemplate>
-                    <DataTemplate>
-                        <Label Text="Third Tab" />
-                    </DataTemplate>
-                </material:TabItem.ContentTemplate>
-            </material:TabItem>
-        </material:TabView>
+                                        <SwipeView>
+                                            <SwipeView.LeftItems>
+                                                <SwipeItems>
+                                                    <SwipeItem Text="Open"
+                                                        IconImageSource="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Restart_alt}}"
+                                                        BackgroundColor="#ffebd3"
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RequestViewModel}} , Path = OpenRequestCommand}"
+                                                        CommandParameter="{Binding .}"
+                                                       />
+                                                </SwipeItems>
+                                            </SwipeView.LeftItems>
+                                                <SwipeView.RightItems>
+                                                    <SwipeItems>
+                                                        <SwipeItem Text="Delete"
+                                      
+                                                        IconImageSource="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Delete}}"
+                                                        BackgroundColor="#ffbfbf"
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RequestViewModel}} , Path = CreateDepartureCommand}"
+                                                        CommandParameter="{Binding .}"
+                                                        />
+                                                    </SwipeItems>
+                                                </SwipeView.RightItems>
+                                                <controls:ItemCardView  />
+                                        </SwipeView>
 
-    </VerticalStackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </material:TabItem.Content>
+                    </material:TabItem>
+
+                </material:TabView>
+           
+            </VerticalStackLayout>
+        </ScrollView>
+        </RefreshView>
+    </Border>
 </ContentPage>

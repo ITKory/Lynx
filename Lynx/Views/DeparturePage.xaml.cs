@@ -15,6 +15,6 @@ public partial class DeparturePage : ContentPage
     {
         base.OnNavigatedTo(args);
 
-        await ViewModel.LoadDataAsync();
+        await ViewModel.LoadDataAsync("api/departure/all");
     }
 }	

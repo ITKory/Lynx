@@ -8,16 +8,21 @@
              x:DataType="vm:RegisterViewModel"
              BindingContext="{vm:RegisterViewModel}"
              Title="{Binding  Title}">
-    <VerticalStackLayout>
+    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" >
         <cv:CameraView x:Name="camV" 
-                WidthRequest="300"
-                HeightRequest="200"
+                       Margin="20,0,0,0"
+                HeightRequest="300"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
+                BarcodeDetected="CamV_BarcodeDetected"
                 BarCodeOptions="{Binding BarCodeOptions}"
                 BarCodeResults="{Binding BarCodeResults, Mode=OneWayToSource}"
                 BarCodeDetectionEnabled="True"
-                />
+               />
+
+
+
+
         <Label Text="{Binding BarcodeText}"/>
     </VerticalStackLayout>
 </ContentPage>

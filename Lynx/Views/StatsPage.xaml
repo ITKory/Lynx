@@ -9,6 +9,8 @@
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
              xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
              xmlns:controls="clr-namespace:Lynx.Controls"
+             xmlns:model="clr-namespace:Lynx.Models"
+             BackgroundColor="#edeef0"
 			 x:DataType="vm:StatsViewModel">
     <ScrollView>
         <VerticalStackLayout
@@ -17,10 +19,7 @@
                 VerticalOptions="StartAndExpand">
             <HorizontalStackLayout Spacing="4"  Padding="15" HorizontalOptions="Center" Margin="0,0,0,0"  >
 
-
-                <HorizontalStackLayout.Effects>
-                    <uranium:BlurEffect AccentColor="WhiteSmoke"/>
-                </HorizontalStackLayout.Effects>
+ 
                 <Border  Stroke="transparent"
                           Padding="6"
                         BackgroundColor="#ffebd3">
@@ -43,14 +42,15 @@
                         <RoundRectangle CornerRadius="15" />
                     </Border.StrokeShape>
                     <Border.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1"   Command="{Binding Path=GoToDepartureCommand}" CommandParameter="{Binding .}" />
+                        <TapGestureRecognizer NumberOfTapsRequired="1"   Command="{Binding Path=GoToStatsCommand}" CommandParameter="{Binding .}" />
                     </Border.GestureRecognizers>
                     <VerticalStackLayout Spacing="4"  Padding="5" HorizontalOptions="Center" >
-                        <Image Source="{FontImageSource Glyph={x:Static m:MaterialRegular.Forest},FontFamily=MaterialRegular, Color=green}" />
+                        <Image Source="{FontImageSource Glyph={x:Static m:MaterialRegular.Bar_chart},FontFamily=MaterialRegular, Color=green}" />
                         <Label Text="Departure"   TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Black}}" />
                     </VerticalStackLayout>
                 </Border>
                 <Border 
+                IsVisible="{Binding IsAdmin}"
                 Padding="6"
                 Stroke="transparent"
                 BackgroundColor="#bfd8ea">
@@ -65,10 +65,27 @@
                         <Label Text="Crews"  TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Black}}" />
                     </VerticalStackLayout>
                 </Border>
+                <Border 
+                IsVisible="{Binding IsSeeker}"
+                Padding="6"
+                Stroke="transparent"
+                BackgroundColor="#bfd8ea">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15" />
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer  NumberOfTapsRequired="1"  Command="{Binding Path=GoToCrewsCommand}" CommandParameter="{Binding .}" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="4"  Padding="5" HorizontalOptions="Center" >
+                        <Image Source="{FontImageSource Glyph={x:Static m:MaterialRegular.People},FontFamily=MaterialRegular, Color=Blue}" />
+                        <Label Text="My Crew"  TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Black}}" />
+                    </VerticalStackLayout>
+                </Border>
                 <Border  
                   Padding="6"
                   BackgroundColor="#d9d9d9"
                   Stroke="transparent" 
+                  IsVisible="{Binding IsAdmin}"
                     >
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="15" />
@@ -84,33 +101,112 @@
 
 
             </HorizontalStackLayout>
-    
-        
-        <Grid Margin="20,0,20,0" Padding="10" RowDefinitions="180,*">
-           
-                <Grid Margin="0,20,0,50" >
-             <!--   <lvc:PieChart
-                HeightRequest="290"
-                InitialRotation="-225"
-                MaxAngle="270"
-                Series="{Binding DegreesGaugePieSeries}"
-                Total="100" />-->
+            <Border             Stroke="transparent"
+                     Margin="10"
+                     StrokeShape="{RoundRectangle CornerRadius=15}"
+                     BackgroundColor="White">
+                <ScrollView>
+                    <VerticalStackLayout>
+                        <material:TextField
+                      Margin="20"
+                      Title="Departure"
+                      AllowClear="True"
+                      Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Search}}"/>
+                        <material:TabView Margin="10"  >
+                            <material:TabItem Title="Open departures" >
+                                <material:TabItem.Content>
 
+
+                                    <CollectionView
+                                    ItemsSource="{Binding ActiveItems}"
+                                    BackgroundColor="Transparent"
+                                    SelectionMode="None">
+                                        <CollectionView.ItemTemplate >
+                                            <DataTemplate x:DataType="model:ListItemModel">
+                                                    <SwipeView>
+                                                        <SwipeView.LeftItems>
+                                                            <SwipeItems>
+                                                                <SwipeItem Text="Close"
+                                 IconImageSource="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Close}}"
+                                 BackgroundColor="#ffebd3"
+                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RequestViewModel}} , Path = CloseRequestCommand}"
+                                 CommandParameter="{Binding .}"
+                                  />
+
+                                                                <SwipeItem Text="Create departure"
+                                IconImageSource="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Forest}}"
+                                BackgroundColor="#d3f2db"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RequestViewModel}} , Path = CreateDepartureCommand}"
+                                CommandParameter="{Binding .}"
+                                  />
+                                                            </SwipeItems>
+                                                        </SwipeView.LeftItems>
+                                                        <SwipeView.RightItems>
+                                                            <SwipeItems>
+                                                                <SwipeItem Text="Delete"
+                                                                      
+                                IconImageSource="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Delete}}"
+                                BackgroundColor="#ffbfbf"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RequestViewModel}} , Path = CreateDepartureCommand}"
+                                CommandParameter="{Binding .}"
+                                  />
+                                                            </SwipeItems>
+                                                        </SwipeView.RightItems>
+                                                        <controls:ItemCardView  />
+                                                    </SwipeView>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+
+
+                                </material:TabItem.Content>
+                            </material:TabItem>
+
+
+                            <material:TabItem Title="Close departures">
+                                <material:TabItem.Content>
+                                    <CollectionView
+                                    ItemsSource="{Binding DisableItems}"
+                                    BackgroundColor="Transparent"
+                                    SelectionMode="None">
+                                        <CollectionView.ItemTemplate >
+                                            <DataTemplate x:DataType="model:ListItemModel">
+                                                        <controls:ItemCardView  />
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </material:TabItem.Content>
+                            </material:TabItem>
+                        </material:TabView>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Border>
+
+            <!--  <Grid Margin="20,0,20,0" Padding="10" RowDefinitions="180,*">
+           
+                <Grid Margin="0,20,0,100" >
                     <skia:SKLottieView  
-                   RepeatMode="Reverse"
-                   RepeatCount="-1"
-                   Source="camp.json"
+                   Source="help.json"
                    WidthRequest="300"
-                   HeightRequest="300"/>
+                   HeightRequest="270"/>
              
             </Grid>
             <VerticalStackLayout Grid.Row="1" Spacing="10">
-                <controls:StatChartControl    />
-                <controls:StatChartControl    />
-                <controls:StatChartControl    />
+                    <CollectionView
+                         ItemsSource="{Binding StatItems}"
+                         BackgroundColor="Transparent"
+                         SelectionMode="None">
+                        <CollectionView.ItemTemplate >
+                            <DataTemplate x:DataType="model:StatItemModel">
+                                <Grid Padding="10">
+                                    <controls:StatChartControl />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
             </VerticalStackLayout>
 
-        </Grid>
+        </Grid>-->
      </VerticalStackLayout>
     </ScrollView>
     <uranium:UraniumContentPage.Attachments>

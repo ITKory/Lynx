@@ -9,18 +9,18 @@
              xmlns:vm="clr-namespace:Lynx.ViewModels"
              x:DataType="vm:LoginViewModel"
              Shell.NavBarIsVisible="False"
-             Title="{Binding Title}">
-    <Grid RowDefinitions="Auto,*,Auto">
+             Shell.TabBarIsVisible="False"
+             Title="{Binding Title}" BackgroundColor="#eeeaea">
+    <Grid RowDefinitions="300,300,400">
         <!--  Welcome  animation   -->
         <VerticalStackLayout
-            Margin="0,70,0,0"
+            Margin="0,40,0,0"
             HorizontalOptions="Center"
             VerticalOptions="Center"
             >
             <skia:SKLottieView  
-                   RepeatMode="Reverse"
-                   Source="person.json"
-                   WidthRequest="150"
+                   Source="login.json"
+                   WidthRequest="200"
                    HeightRequest="150"/>
         </VerticalStackLayout>
         <!--  Login Container  -->
@@ -31,8 +31,6 @@
             <Border
                 Margin="20,0"
                 Padding="20"
-                BackgroundColor="{StaticResource ControlBackground}"
-                Shadow="{StaticResource ControlShadow}"          
                 Stroke="{StaticResource Gray100}"
                 StrokeShape="RoundRectangle 10"
                 StrokeThickness="1">
@@ -49,7 +47,7 @@
                             IsPassword="True"
                             Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Password}}"/>
 
-                    <Button Command="{Binding LoginCommand}" Text="Login" />
+                    <Button Command="{Binding LoginCommand}" Text="Login" IsEnabled="{Binding IsButtonEnabled}" />
                 </VerticalStackLayout>
             </Border>
             <Label
@@ -67,7 +65,7 @@
         <!--  Registration Text  -->
         <HorizontalStackLayout
             Grid.Row="2"
-            Margin="0,0,0,40"
+            Margin="0,0,0,100"
             HorizontalOptions="Center"
             Spacing="5"
             VerticalOptions="Center">

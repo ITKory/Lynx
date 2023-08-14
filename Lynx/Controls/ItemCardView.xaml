@@ -5,86 +5,56 @@
              xmlns:model="clr-namespace:Lynx.Models"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
              xmlns:vm="clr-namespace:Lynx.ViewModels"
-             x:DataType="model:DepartureListItemModel"
+             x:DataType="model:ListItemModel"
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
              >
     <Border
-        Padding="5"
-        BackgroundColor="{StaticResource Gray100}"
-        StrokeThickness="1">
-        <Border.Background>
-            <LinearGradientBrush>
-                <GradientStop  Color="White"
-            Offset="0.1" />
-                <GradientStop  Color="LightGreen"
-             Offset="0.55" />
-                <GradientStop  Color="WhiteSmoke"
-             Offset="0.8" />
-            
-            </LinearGradientBrush>
-        </Border.Background>
-
        
-        <Border.Shadow>
-            <Shadow  
-                   Offset="4,4"
-                   Radius="30"
-                   Opacity="0.6">
-                <Shadow.Brush>
-                    <LinearGradientBrush>
-                        <GradientStop Color="DarkCyan"
-                                          Offset="0.1" />
-                        <GradientStop Color="Green"
-                                          Offset="1.0" />
-                    </LinearGradientBrush>
-                </Shadow.Brush>
-            </Shadow>
-        </Border.Shadow>
-    
+        Margin="2"
+        StrokeThickness="0"
+        BackgroundColor="{Binding ItemColor}"
+        >
         <Border.StrokeShape>
-            <RoundRectangle CornerRadius="20" />
+            <RoundRectangle CornerRadius="10" />
         </Border.StrokeShape>
         <Grid
-    Padding="10"
-    ColumnDefinitions=".3*,.7*"
-    RowDefinitions="*,Auto"
-    VerticalOptions="Center">
+            ColumnDefinitions=".4*,.7*"
+            VerticalOptions="Center">
             <Grid.GestureRecognizers>
-							<TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DepartureViewModel}}, Path=GoToDetailsCommand}" CommandParameter="{Binding .}" />
+                <TapGestureRecognizer NumberOfTapsRequired="1" 
+                                      Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BaseViewModel}}, Path=GoToDetailsCommand}"
+                                      CommandParameter="{Binding .}" />
             </Grid.GestureRecognizers>
-            <HorizontalStackLayout
-        Grid.Row="0"
-        Grid.Column="0"
-        Spacing="20">
-                <Border  Stroke="transparent"
+                <Border   Stroke="transparent"
                           Padding="6"
-                        BackgroundColor="#ffebd3">
+                          Margin="3,3,25,3"
+                        
+                          >
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="15" />
+                        <RoundRectangle CornerRadius="10" />
                     </Border.StrokeShape>
                  
-                    <VerticalStackLayout Spacing="4"  Padding="5" HorizontalOptions="Center"    >
-                        <Image Source="{FontImageSource Glyph={x:Static m:MaterialRegular.Person},FontFamily=MaterialRegular, Color=orange}" />
-                    </VerticalStackLayout>
+                    <Image  HeightRequest="60"    HorizontalOptions="Center" Source="{FontImageSource Glyph={x:Static m:MaterialRegular.Person},FontFamily=MaterialRegular, Color=orange}" />
+                  
                 </Border>
-            </HorizontalStackLayout>
-            <VerticalStackLayout
-        Grid.Row="0"
+             
+        <VerticalStackLayout
         Grid.Column="1"
         VerticalOptions="Center"
         HorizontalOptions="Start"
-        Spacing="5">
+        Spacing="5"
+            >
                 <Label
             FontAttributes="Bold"
-            HorizontalTextAlignment="End"
+            HorizontalTextAlignment="Start"
             Text="{Binding  Title}"
-            TextColor="Red" />
+          />
                 <Label
-            HorizontalTextAlignment="End"
+            HorizontalTextAlignment="Start"
             Text="{Binding  BDay}"
             TextColor="{StaticResource Gray30}" />  
                 <Label
-            HorizontalTextAlignment="End"
+            HorizontalTextAlignment="Start"
             Text="{Binding   City}"
             TextColor="{StaticResource Gray30}" />
             </VerticalStackLayout>

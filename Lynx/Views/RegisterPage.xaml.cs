@@ -2,7 +2,8 @@ namespace Lynx.Views;
 
 public partial class RegisterPage : ContentPage
 {
-	public RegisterPage()
+    RegisterViewModel vm;
+	public RegisterPage(RegisterViewModel vm)
 	{
 		InitializeComponent();
         camV.CamerasLoaded += CamV_CamerasLoaded;
@@ -23,7 +24,6 @@ public partial class RegisterPage : ContentPage
 
     private void CamV_BarcodeDetected(object sender, Camera.MAUI.ZXingHelper.BarcodeEventArgs args)
     {
-        Debug.WriteLine("QR CONTENT:" + args.Result[0].Text);
-
+        vm.Detected();
     }
 }

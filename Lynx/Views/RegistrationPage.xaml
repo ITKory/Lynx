@@ -9,7 +9,7 @@
              xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
              xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
              x:DataType="vm:RegistrationViewModel"
-             Title="RegistrationPage">
+             Title="Registration">
     <Grid RowDefinitions="Auto,*,Auto">
         <!--  Welcome Text  -->
         <VerticalStackLayout
@@ -30,8 +30,6 @@
                 <Border
                 Margin="20,0"
                 Padding="20"
-                BackgroundColor="{StaticResource ControlBackground}"
-                Shadow="{StaticResource ControlShadow}"          
                 Stroke="{StaticResource Gray100}"
                 StrokeShape="RoundRectangle 10"
                 StrokeThickness="1">

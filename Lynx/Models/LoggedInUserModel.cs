@@ -11,5 +11,6 @@ namespace Lynx.Models
     {
         public string Token { get; set; }
         public User User { get; set; }
+        public string[] Roles { get; set; }
     }
 }

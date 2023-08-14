@@ -1,5 +1,7 @@
 ﻿
 using Domain.Models;
+using Lynx.Models;
+using Lynx.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +16,29 @@ public partial class DepartureDetailViewModel:BaseViewModel
 {
     [ObservableProperty]
     SearchDeparture selectedDeparture;
+
     [ObservableProperty]
     HtmlWebViewSource mapSource;
 
+    LynxApi _lynxService;
+
+    [ObservableProperty]
+    List<ParticipantModel> participants;
     public DepartureDetailViewModel()
     {
-       
+        _lynxService = new LynxApi();
     }
 
     [RelayCommand]
-    public void LoadMap()
+    private async void LoadParticipants()
+    {
+      Participants = await _lynxService.GetParticipantsAsync($"api/departure/participants?departureId={SelectedDeparture.Id}");
+    }
+    
+  
+
+    [RelayCommand]
+    private void LoadMap()
     {
         Title = $"{SelectedDeparture.SearchRequest.Lost.Name} detail";
         MapSource = new HtmlWebViewSource
@@ -49,15 +64,19 @@ public partial class DepartureDetailViewModel:BaseViewModel
                 </body>
                 </html> "
         };
+
     }
 
     [RelayCommand]
     private async void JoinDeparture()
     {
-        string barCodeContent = Newtonsoft.Json.JsonConvert.SerializeObject(SelectedDeparture);
+
+        string userId = await SecureStorage.Default.GetAsync("user_id");
+
+        string barCodeJsonContent = JsonSerializer.Serialize(new  SeekerRegistration{ SearchDepartureId = SelectedDeparture.Id , UserId =Convert.ToInt32(userId), StartAt = TimeOnly.FromDateTime(DateTime.Now)});
         await Shell.Current.GoToAsync(nameof(QRCodePage), true, new Dictionary<string, object>
             {
-                { "selectedDeparture", barCodeContent }
+                { "selectedDeparture", barCodeJsonContent }
             });
     }
 }

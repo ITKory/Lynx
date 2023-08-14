@@ -50,7 +50,7 @@ namespace Lynx.ViewModels
 
         async public  Task LoadCities()
         {
-            var cities = await _lynxService.GetRefreshDataListAsync<City>(new Uri("http://10.0.2.2:5008/api/city/all"));
+            var cities = await _lynxService.GetRefreshDataListAsync<City>("/api/city/all");
             foreach (var city in cities)
                 Cities.Add(city.Title);
         }
@@ -59,23 +59,35 @@ namespace Lynx.ViewModels
         private async void Registration()
         {
          
-              var user = new User()
-              {
-                   Password = "qwe",
-                   Login = "qwe",
-                   Email = "qwe@gmail.com",
-                   Profile = new Profile()
-                   {
-                       Name = "Kirpich",
-                       Phone = "88005353535",
-                       RelativesPhone = "228",
-                       BDay = new DateOnly(111, 1, 1),
-                       Call = "chert",
-                       CityId = 1
-                   }
+          
 
-        };
-            await _lynxService.CreateEntityAsync(new Uri("http://10.0.2.2:5008/api/user/add"), user);
+ 
+
+       
+          
+
+/*            user = new User()
+            {
+                Password = "user2",
+                Login = "user2",
+                Email = "user2@gmail.com",
+                Profile = new Profile()
+                {
+                    Name = "Gleb Larkov",
+                    Phone = "89687134575",
+                    RelativesPhone = "89824674187",
+                    BDay = new DateOnly(2000, 4, 6),
+                    Call = "Serp",
+                    CityId = 1
+                }
+
+            };
+              _lynxService.CreateEntityAsync(new Uri("http://10.0.2.2:5008/api/user/add"), user);*/
+
+
+
+
+
 
         }
 

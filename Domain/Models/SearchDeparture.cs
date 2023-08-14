@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Domain.Models;
 
@@ -16,6 +17,10 @@ public partial class SearchDeparture
     public DateOnly Date { get; set; }
 
     public int LocationId { get; set; }
+
+    public bool IsUrgent { get; set; }
+
+    public bool IsActive { get; set; }
 
     public virtual User Cartographer { get; set; } = null!;
 

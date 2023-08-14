@@ -12,13 +12,11 @@
             BarcodeMargin="5"
             WidthRequest="400" 
             HeightRequest="400"
-            Background="green" 
             BarcodeHeight="400" 
             BarcodeWidth="400"
             BarcodeFormat="QR_CODE"
             Barcode="{Binding BarCodeContent}"
             />
-        <Label Text="{Binding  Departure.Id}" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center" />
     </VerticalStackLayout>
     
 </ContentPage>

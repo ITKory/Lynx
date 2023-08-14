@@ -1,6 +1,7 @@
 ﻿using Camera.MAUI;
 using InputKit.Handlers;
 using Lynx.Service;
+using Mopups.Hosting;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using UraniumUI;
 namespace Lynx;
@@ -15,10 +16,11 @@ public static class MauiProgram
 			.UseMauiCameraView()
 			.UseMauiCommunityToolkit()
 			.UseMauiMaps()
-            .UseUraniumUI()
+			.UseUraniumUI()
 			.UseUraniumUIMaterial()
-            .UseUraniumUIBlurs()
+			.UseUraniumUIBlurs()
 			.UseSkiaSharp()
+			.ConfigureMopups()
             .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -39,14 +41,11 @@ public static class MauiProgram
 		builder.Services.AddTransient<MapViewModel>();
 		builder.Services.AddTransient<MapPage>();
 
-		builder.Services.AddSingleton<HubViewModel>();
-		builder.Services.AddSingleton<HubPage>();
-
 		builder.Services.AddSingleton<ProfileViewModel>();
 		builder.Services.AddSingleton<ProfilePage>();
 
 		builder.Services.AddTransient<RequestsPage>();
-		builder.Services.AddTransient<RequestsViewModel>();
+		builder.Services.AddTransient<RequestViewModel>();
 
         builder.Services.AddTransient<CrewsPage>();
         builder.Services.AddTransient<CrewsViewModel>();
@@ -54,11 +53,20 @@ public static class MauiProgram
         builder.Services.AddSingleton<DeparturePage>();
         builder.Services.AddSingleton<DepartureViewModel>();
 
+		builder.Services.AddSingleton<CreateDeparturePage>();
+		builder.Services.AddSingleton<CreateDepartureViewModel>();
+
 		builder.Services.AddTransient<QRCodePage>();
 		builder.Services.AddTransient<BarcodeViewModel>();
 
 		builder.Services.AddTransient<DepartureDetailPage>();
 		builder.Services.AddTransient<DepartureDetailViewModel>();
+
+		builder.Services.AddTransient<RequestDetailPage>();
+		builder.Services.AddTransient<RequestDetailViewModel>();
+
+		builder.Services.AddTransient<CreateRequestPage>();
+		builder.Services.AddTransient<CreateRequestViewModel>();
 
 		builder.Services.AddTransient<RegisterPage>();
 		builder.Services.AddTransient<RegisterViewModel>();

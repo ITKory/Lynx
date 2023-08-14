@@ -6,9 +6,10 @@
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
              x:Class="Lynx.Views.DepartureDetailPage" 
              x:DataType="vm:DepartureDetailViewModel" 
-             Title="{Binding Title}">
+             xmlns:controls="clr-namespace:Lynx.Controls"
+             Title="{Binding Title }" >
+            <ScrollView VerticalScrollBarVisibility="Always">
     <VerticalStackLayout>
-        <ScrollView>
             
         <Border BackgroundColor="{StaticResource Gray100}" Margin="5">
             <Border.StrokeShape>
@@ -68,9 +69,27 @@
                 </Grid>
             </Grid>
                 <WebView Source="{Binding MapSource}" HeightRequest="300"  />
-                    <Button Text="Join departure"   BackgroundColor="{StaticResource Secondary}"   Command="{Binding JoinDepartureCommand}"  Margin="10"/>
+                        <VerticalStackLayout >
+                            <Label Text="Participants"/>
+                    <ScrollView VerticalScrollBarVisibility="Always">
+                            <CollectionView
+                            ItemsSource="{Binding  Participants}"
+                            BackgroundColor="Transparent"
+                            SelectionMode="None">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate >
+                                        <Grid Padding="5">
+                                            <controls:SeekerCardView/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                    </ScrollView>
+                        </VerticalStackLayout>
+                    <Button Text="Join departure"   IsVisible="{Binding  SelectedDeparture.IsActive}"  BackgroundColor="{StaticResource Secondary}"   Command="{Binding JoinDepartureCommand}"  Margin="10"/>
             </VerticalStackLayout>
         </Border>
-        </ScrollView>
     </VerticalStackLayout>
+        </ScrollView>
 </ContentPage>

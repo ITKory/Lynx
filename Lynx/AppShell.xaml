@@ -8,10 +8,10 @@
     xmlns:vm="clr-namespace:Lynx.ViewModels"
 	xmlns:local="clr-namespace:Lynx">
 
-   <!--<ShellContent
+   <ShellContent
 			Title="Welocome!"
 			Icon="{FontImageSource Glyph={x:Static m:MaterialRegular.Bar_chart},FontFamily=MaterialRegular, Color=green}"
-			ContentTemplate="{DataTemplate views:LoginPage}" />-->
+			ContentTemplate="{DataTemplate views:LoginPage}" />
     
     <TabBar>
 		<ShellContent

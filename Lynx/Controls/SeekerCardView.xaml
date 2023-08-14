@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
-	xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
-    xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
-    xmlns:model="clr-namespace:Lynx.Models"
-    xmlns:vm="clr-namespace:Lynx.ViewModels"
-    x:DataType="model:StatItemModel"
-    x:Class="Lynx.Controls.StatChartControl">
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Lynx.Controls.SeekerCardView"
+             xmlns:model="clr-namespace:Lynx.Models"
+	         xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+             x:DataType="model:ParticipantModel"
+             >
     <Border
         Padding="2"
         BackgroundColor="White "
         StrokeThickness="2"
-        IsVisible="{Binding IsVisible}"
          >
-
         <Border.Shadow>
             <Shadow  Offset="4,4" Radius="30" Opacity="0.6">
                 <Shadow.Brush>
@@ -30,44 +25,52 @@
             <RoundRectangle CornerRadius="15" />
         </Border.StrokeShape>
         <Grid
-    Padding="10"
-    ColumnDefinitions=".3*,.3*,.2*"
-    RowDefinitions="*,Auto"
-    VerticalOptions="Center">
+                Padding="10"
+                ColumnDefinitions=".3*,.3*,.2*"
+                RowDefinitions="*,Auto"
+                VerticalOptions="Center">
+            
             <Grid.GestureRecognizers>
-                <TapGestureRecognizer NumberOfTapsRequired="1"
-                                  Command="{Binding Source={RelativeSource AncestorType={x:Type vm:StatsViewModel}}, Path=GoToDetailsCommand}"
-                                  CommandParameter="{Binding .}" />
+                <TapGestureRecognizer  />
             </Grid.GestureRecognizers>
             <HorizontalStackLayout
-        Grid.Row="0"
-        Grid.Column="0"
-        Spacing="10">
+                         Grid.Row="0"
+                         Grid.Column="0"
+                         Spacing="10">
+                
                 <Border  Stroke="transparent"
                           Padding="6"
                          HeightRequest="60"
                          WidthRequest="60"
                         BackgroundColor="#ffebd3">
+                    
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10" />
                     </Border.StrokeShape>
-                    <Image Source="{Binding Icon}"   />
+                    
+                    <Image Source="{FontImageSource Glyph={x:Static m:MaterialRegular.Person},FontFamily=MaterialRegular, Color=orange}"   />
+                
                 </Border>
             </HorizontalStackLayout>
+            
             <VerticalStackLayout
         Grid.Row="0"
         Grid.Column="1"
         VerticalOptions="Center"
         HorizontalOptions="Start"
         Spacing="5">
+                
                 <Label
             FontAttributes="Bold"
             HorizontalTextAlignment="End"
-            Text="{Binding  Title}"  />
+            Text="{Binding Name}"
+            TextColor="Red" />
+                
                 <Label
             HorizontalTextAlignment="End"
-            Text="Last data"
+            Text="{Binding Call}"
             TextColor="{StaticResource Gray30}" />
+                
             </VerticalStackLayout>
             
             <VerticalStackLayout
@@ -76,11 +79,7 @@
                     VerticalOptions="Center"
                     HorizontalOptions="Start"
                     Spacing="5">
-
-                <lvc:CartesianChart
-                     Series="{Binding ChartSeries}"
-                    HeightRequest="80" />
-                
+ 
             </VerticalStackLayout>
         </Grid>
     </Border>
