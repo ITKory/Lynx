@@ -12,6 +12,13 @@ To date, PSG "Lynx" is an autonomous professional search and rescue unit in the 
   
 The task was to write software that simplifies the collection of statistical information about search engines, volunteers, search fees.
 </p>
+<br>
+<h2 align="center">Preview</h2>
+  <p align="center">
+      <img src="./Assets/lynxapp.jpg"  />
+</p>
+<br>
+
 <p>
   
 ---
@@ -51,27 +58,3 @@ Api:
  
 </p>
 </br>
-
----
-
-<br>
-<h2 align="center">Preview</h2>
-<p>
-
- 
-
-</p>
-<br>
-
- 
- 
-
- 
-
----
-
-<div align="center">
-
- 
-
-</div>
