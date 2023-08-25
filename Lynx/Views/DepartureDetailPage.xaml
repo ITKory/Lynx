@@ -5,13 +5,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
              x:Class="Lynx.Views.DepartureDetailPage" 
+             xmlns:lang="clr-namespace:Lynx.Resources.Languages"
              x:DataType="vm:DepartureDetailViewModel" 
              xmlns:controls="clr-namespace:Lynx.Controls"
+             BackgroundColor="#edeef0"
              Title="{Binding Title }" >
             <ScrollView VerticalScrollBarVisibility="Always">
     <VerticalStackLayout>
             
-        <Border BackgroundColor="{StaticResource Gray100}" Margin="5">
+        <Border   Margin="5" StrokeThickness="0"   >
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="20" />
             </Border.StrokeShape>
@@ -19,7 +21,7 @@
                 
             <Grid ColumnDefinitions="{OnPlatform Default='.60*,.40*', Android='*'}" ColumnSpacing="5" RowDefinitions="*,Auto" RowSpacing="0">
                 <Grid Padding="10">
-                    <Border Padding="5" BackgroundColor="{StaticResource Gray100}" StrokeThickness="1">
+                    <Border Padding="5"   StrokeThickness="0">
                         <Border.Background>
                             <LinearGradientBrush>
                                 <GradientStop Color="White" Offset="0.1" />
@@ -28,7 +30,7 @@
                             </LinearGradientBrush>
                         </Border.Background>
                         <Border.Shadow>
-                            <Shadow Offset="4,4" Radius="30" Opacity="0.6">
+                            <Shadow Offset="4,4" Radius="30" Opacity="0.5">
                                 <Shadow.Brush>
                                     <LinearGradientBrush>
                                         <GradientStop Color="DarkCyan" Offset="0.1" />
@@ -57,21 +59,20 @@
                             <VerticalStackLayout Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" Spacing="5">
                                 <Label   Text="{Binding  SelectedDeparture.SearchRequest.Lost.Name   }" FontSize="Large" FontAttributes="Bold" TextColor="{StaticResource Gray30}" />
                                 <Label   Text="{Binding SelectedDeparture.SearchRequest.Lost.City.Title , StringFormat='Home city: {0}'}"  />
-                                <Label   Text="{Binding SelectedDeparture.SearchRequest.Lost.BDay, StringFormat='Birthday: {0}'}"  />
+                                <Label   Text="{Binding SelectedDeparture.SearchRequest.Lost.Birthday, StringFormat='Birthday: {0}'}"  />
                             </VerticalStackLayout>
                         </Grid>
                                     <Label Margin="5" Text="{Binding SelectedDeparture.SearchRequest.DateOfLosee, StringFormat='Date of losee: {0}'}" FontSize="Subtitle"/>
                                     <Label Margin="5"  Text="{Binding SelectedDeparture.SearchRequest.Face, StringFormat='Face: {0}'}" FontSize="Subtitle"/>
                                     <Label Margin="5" Text="{Binding SelectedDeparture.SearchRequest.Comment, StringFormat='Comment: {0}'}" FontSize="Subtitle"/>
                         </VerticalStackLayout>
-
                     </Border>
                 </Grid>
             </Grid>
                 <WebView Source="{Binding MapSource}" HeightRequest="300"  />
                         <VerticalStackLayout >
-                            <Label Text="Participants"/>
-                    <ScrollView VerticalScrollBarVisibility="Always">
+                        <Label Text="{x:Static lang:AppResources.Participants}" Margin="5"  FontSize="Medium"   FontAttributes="Bold"/>
+                        <ScrollView VerticalScrollBarVisibility="Always">
                             <CollectionView
                             ItemsSource="{Binding  Participants}"
                             BackgroundColor="Transparent"
@@ -84,10 +85,9 @@
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
-
                     </ScrollView>
                         </VerticalStackLayout>
-                    <Button Text="Join departure"   IsVisible="{Binding  SelectedDeparture.IsActive}"  BackgroundColor="{StaticResource Secondary}"   Command="{Binding JoinDepartureCommand}"  Margin="10"/>
+                    <Button Text="{x:Static lang:AppResources.Join}" Command="{Binding JoinDepartureCommand}"  IsVisible="{Binding  SelectedDeparture.IsActive}"    Margin="10"/>
             </VerticalStackLayout>
         </Border>
     </VerticalStackLayout>

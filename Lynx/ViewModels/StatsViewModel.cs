@@ -1,25 +1,23 @@
-﻿using LiveChartsCore.Measure;
-using LiveChartsCore.SkiaSharpView;
+﻿using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore;
-using SkiaSharp;
 using Lynx.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using UraniumUI.Icons.MaterialIcons;
-using LiveChartsCore.Kernel.Sketches;
-using Microsoft.Maui.Dispatching;
-using Lynx.Service;
 
-namespace Lynx.ViewModels;
-
-public partial class StatsViewModel : BaseOptionForCollectionViewModel
+namespace Lynx.ViewModels
 {
-
-    [ObservableProperty]
-    List<StatItemModel> statItems;
-
-
-    public StatsViewModel(LynxApi lynxApi) : base(lynxApi)
+    public partial class StatsViewModel:BaseViewModel
     {
-        StatItems = new List<StatItemModel>()
+        [ObservableProperty]
+        List<StatItemModel> statItems;
+
+        public StatsViewModel()
+        {
+            StatItems = new List<StatItemModel>()
         {
             new  StatItemModel
         {
@@ -39,7 +37,7 @@ public partial class StatsViewModel : BaseOptionForCollectionViewModel
             new  StatItemModel
         {
                 Title = "Requests ",
-                Icon = MaterialRegular.List,      
+                Icon = MaterialRegular.List,
                 ChartSeries =    new ISeries[]
                               {
                                 new ColumnSeries<int>
@@ -51,53 +49,11 @@ public partial class StatsViewModel : BaseOptionForCollectionViewModel
                 IsVisible = IsAdmin
         },
      };
-
-
-    }
-
-    [RelayCommand]
-    private async void GoToDetails(ListItemModel item)
-    {
-        var fullDepartureInfo = await lynxService.GetDepartureByIdAsync($"api/departure/get?departureId={item.Id}");
-        if (fullDepartureInfo != null)
-        {
-            await Shell.Current.GoToAsync(nameof(DepartureDetailPage), true, new Dictionary<string, object>
-            {
-                { "selectedDeparture", fullDepartureInfo }
-            });
         }
-        else
+        [RelayCommand]
+        async void GoToDetails()
         {
-            await Shell.Current.DisplayAlert("Server error", "server error", "ok");
+            await Shell.Current.GoToAsync(nameof(StatsDetailPage),true);
         }
-
-   }
-
-
-    [RelayCommand]
-    private async void GoToRequests()
-    {
-        var items = await lynxService.GetRefreshDataListAsync<ListItemModel>("api/request/get/all");
-
-        await Shell.Current.GoToAsync(nameof(RequestsPage), true, new Dictionary<string, object>
-            {
-                { "Requests", items   }
-            });
-
-    }
-    [RelayCommand]
-    private async void GoToCrews()
-    {
-        await Shell.Current.GoToAsync($"{nameof(CrewsPage)}", true);
-    }
-    [RelayCommand]
-    private async void GoToStats()
-    {
-        await Shell.Current.GoToAsync($"{nameof(DeparturePage)}", true);
-    }
-    [RelayCommand]
-    private async void GoToRegister()
-    {
-        await Shell.Current.GoToAsync($"{nameof(RegisterPage)}", true);
     }
 }

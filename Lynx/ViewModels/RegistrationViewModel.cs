@@ -1,13 +1,8 @@
 ﻿using Domain.Models;
+using Lynx.Controls;
+using Lynx.Models;
 using Lynx.Service;
- 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.Maui.ApplicationModel.Permissions;
-using static System.Formats.Asn1.AsnWriter;
+using Mopups.Services;
 
 namespace Lynx.ViewModels
 {
@@ -25,32 +20,33 @@ namespace Lynx.ViewModels
         [ObservableProperty]
         string relativesPhone;
         [ObservableProperty]
-        DateOnly bDay;
+        DateTime birthday;
         [ObservableProperty]
         string call;
-
         [ObservableProperty]
         City selectedCity;
-
         [ObservableProperty]
-        List<string> cities = new () ;
-
+        List<string> cities = new();
         [ObservableProperty]
-        string password;   
+        string password;
         [ObservableProperty]
         string login;
-
+        [ObservableProperty]
+        string errorText;
+        [ObservableProperty]
+        bool errorVisible;
+        [ObservableProperty]
+        string city;
         public string FullName => $"{Name} {Surname}";
 
-       readonly LynxApi _lynxService; 
-        public   RegistrationViewModel(LynxApi lynxApi)
+        readonly LynxApi _lynxService;
+        public RegistrationViewModel(LynxApi lynxApi)
         {
             _lynxService = lynxApi;
         }
-
-        async public  Task LoadCities()
+        async public Task LoadCities()
         {
-            var cities = await _lynxService.GetRefreshDataListAsync<City>("/api/city/all");
+            var cities = await _lynxService.GetDataListAsync<City>("api/city/all");
             foreach (var city in cities)
                 Cities.Add(city.Title);
         }
@@ -58,43 +54,53 @@ namespace Lynx.ViewModels
         [RelayCommand]
         private async void Registration()
         {
-         
-          
-
- 
-
-       
-          
-
-/*            user = new User()
+            var user = new User()
             {
-                Password = "user2",
-                Login = "user2",
-                Email = "user2@gmail.com",
+                Password = Password,
+                Login = Login,
+                Email = Email,
                 Profile = new Profile()
                 {
-                    Name = "Gleb Larkov",
-                    Phone = "89687134575",
-                    RelativesPhone = "89824674187",
-                    BDay = new DateOnly(2000, 4, 6),
-                    Call = "Serp",
-                    CityId = 1
+                    Name = FullName,
+                    Phone = Phone,
+                    RelativesPhone = RelativesPhone,
+                    Birthday = DateOnly.FromDateTime(Birthday),
+                    Call = Call,
+                    City = new City { Title = City }
                 }
-
             };
-              _lynxService.CreateEntityAsync(new Uri("http://10.0.2.2:5008/api/user/add"), user);*/
 
+            try
+            {
+               var newUser =  await _lynxService.CreateUser(user) ?? throw new Exception("user is null");
 
+                await MopupService.Instance.PushAsync(new LoadingMopup());
+                var loggedData = await _lynxService.LoginUser(  Login, Password);
+                if (loggedData != null)
+                {
+                    await SecureStorage.Default.SetAsync("access_token", loggedData.Token);
+                    await SecureStorage.Default.SetAsync("user_id", loggedData.User.Id.ToString());
+                    await SecureStorage.Default.SetAsync("roles", string.Join(";", loggedData.Roles));
 
-
-
-
+                    await Shell.Current.GoToAsync($"//{nameof(HubPage)}", true);
+                }
+                else
+                {
+                    throw new Exception("login error");
+                }
+                await MopupService.Instance.PopAsync();
+            }
+            catch (Exception ex)
+            {
+                ErrorText = ex.Message;
+                ErrorVisible = true;
+            }
         }
 
         [RelayCommand]
         private async void GoToLogin()
         {
-            await Shell.Current.GoToAsync($"{nameof(LoginPage)}", true);
+            await Shell.Current.GoToAsync($"..", true);
         }
     }
 }

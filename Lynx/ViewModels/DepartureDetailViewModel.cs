@@ -32,7 +32,7 @@ public partial class DepartureDetailViewModel:BaseViewModel
     [RelayCommand]
     private async void LoadParticipants()
     {
-      Participants = await _lynxService.GetParticipantsAsync($"api/departure/participants?departureId={SelectedDeparture.Id}");
+      Participants = await _lynxService.GetParticipantsByDepartureIdAsync(SelectedDeparture.Id);
     }
     
   
@@ -40,7 +40,7 @@ public partial class DepartureDetailViewModel:BaseViewModel
     [RelayCommand]
     private void LoadMap()
     {
-        Title = $"{SelectedDeparture.SearchRequest.Lost.Name} detail";
+        Title = $"{SelectedDeparture.SearchRequest.Lost.Name} ";
         MapSource = new HtmlWebViewSource
         {
             Html = @$"
@@ -55,8 +55,19 @@ public partial class DepartureDetailViewModel:BaseViewModel
                                 function init(){{
                                     var myMap = new ymaps.Map(""map"", {{
                                         center: [{SelectedDeparture.Location.Latitude}, {SelectedDeparture.Location.Longitude}],
-                                        zoom: 13
-                                    }});}}
+                                        zoom: 12
+                                    }});
+           myMap.geoObjects.add(new ymaps.Placemark([{SelectedDeparture.Location.Latitude}, {SelectedDeparture.Location.Longitude}],
+            {{
+			balloonContent: 'Точка сбора'
+		    }},
+            {{
+			preset: 'islands#icon',
+			iconColor: '#0095b6'
+		    }}
+            ))
+
+}}
                             </script>
                         </head>
                 <body>
@@ -70,10 +81,14 @@ public partial class DepartureDetailViewModel:BaseViewModel
     [RelayCommand]
     private async void JoinDeparture()
     {
-
         string userId = await SecureStorage.Default.GetAsync("user_id");
+        string barCodeJsonContent = JsonSerializer.Serialize(
+            new  SeekerRegistration{ 
+            SearchDepartureId = SelectedDeparture.Id , 
+            UserId =Convert.ToInt32(userId),
+            StartAt = TimeOnly.FromDateTime(DateTime.Now)
+            });
 
-        string barCodeJsonContent = JsonSerializer.Serialize(new  SeekerRegistration{ SearchDepartureId = SelectedDeparture.Id , UserId =Convert.ToInt32(userId), StartAt = TimeOnly.FromDateTime(DateTime.Now)});
         await Shell.Current.GoToAsync(nameof(QRCodePage), true, new Dictionary<string, object>
             {
                 { "selectedDeparture", barCodeJsonContent }

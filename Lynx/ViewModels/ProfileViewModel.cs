@@ -17,7 +17,7 @@ public partial class ProfileViewModel : BaseViewModel
     public async void LoadProfile()
     {
         var userId = await SecureStorage.Default.GetAsync("user_id");
-        UserProfile =  await _lynxService.GetProfileAsync($"api/profile/get?userId={userId}");
+        UserProfile =  await _lynxService.GetProfileByIdAsync(Convert.ToInt32(userId));
     }
 
     [RelayCommand]

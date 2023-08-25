@@ -34,7 +34,7 @@ namespace Lynx.ViewModels
         List<string> calls;
 
         [ObservableProperty]
-        string missingLocation;
+        string departureCoordinates;
 
         private List<User> users ;
         public void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -47,22 +47,21 @@ namespace Lynx.ViewModels
 
         public CreateDepartureViewModel(LynxApi lynxService)
         {
-            Title = "Create departure";
+       
             _lynxService = lynxService;
-                
         }
  
         [RelayCommand]
-        private void CreateDeparture()
+        private async void CreateDeparture()
         {
-            var missingLocation = MissingLocation.Split(",", 2);
+            var departureCoordinates = DepartureCoordinates.Split(",", 2);
             SearchDeparture searchDeparture = new()
             {
                 SearchRequestId = SelectedRequest.Id,
                 Location = new Domain.Models.Location()
                 {
-                    Longitude = missingLocation[0],
-                    Latitude = missingLocation[1]
+                    Latitude = departureCoordinates[0],
+                    Longitude = departureCoordinates[1]
 
                 },
                 IsActive = true,
@@ -74,14 +73,13 @@ namespace Lynx.ViewModels
             };
             try
             {
-                _lynxService.CreateEntityAsync("api/departure/add", searchDeparture);
+             await _lynxService.CreateDepartureAsync( searchDeparture);
             }
             catch(Exception ex) 
             {
-                Shell.Current.DisplayAlert("error", ex+"", "Ok");
-                
+               await Shell.Current.DisplayAlert("error", ex+"", "Ok");
             }
-            Shell.Current.GoToAsync("..");
+           await Shell.Current.GoToAsync("..");
 
         }
     }

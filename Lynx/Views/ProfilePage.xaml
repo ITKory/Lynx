@@ -7,6 +7,8 @@
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
 			 x:Class="Lynx.Views.ProfilePage"
 			 x:DataType="vm:ProfileViewModel"
+             xmlns:lang="clr-namespace:Lynx.Resources.Languages"
+             Title="{x:Static lang:AppResources.Profile}"
              BackgroundColor="#edeef0"
              >
 
@@ -23,15 +25,19 @@
               FontSize="Large"
               HorizontalOptions="Center"
               Text="{Binding UserProfile.Name}"  />
-                <Label
-              HorizontalOptions="Center"
-              Text="{Binding UserProfile.Call , StringFormat='Call: {0}'}" />
+                <HorizontalStackLayout Spacing="5" HorizontalOptions="Center" >
+                    <Label FontAttributes="Bold"  Text="{x:Static lang:AppResources.Call}"/>
+                    <Label
+                        HorizontalOptions="Center"
+                        Text="{Binding UserProfile.Call }" />
+                </HorizontalStackLayout>
+          
                 <Button
               BackgroundColor="{StaticResource Secondary}"
               CornerRadius="20"
               FontAttributes="Bold"
               HorizontalOptions="Center"
-              Text="Edit profile"  />
+              Text="{x:Static lang:AppResources.EditProfile}"  />
             </VerticalStackLayout>
 
         </Border>
@@ -40,7 +46,7 @@
                 <Grid RowDefinitions="40, Auto">
                     <Label
                          FontSize="Medium"
-                         Text="General"
+                         Text="{x:Static lang:AppResources.General}"
                          Margin="10"  />
                     <Border
                   Grid.Row="1"
@@ -61,7 +67,7 @@
                           Grid.Row="0"
                           Margin="50,0,0,0"
                           FontSize="Medium"
-                          Text="Notification" />
+                          Text="{x:Static lang:AppResources.Notification}" />
                             
                             <Switch
                           Grid.Row="0"
@@ -83,7 +89,7 @@
                                 Grid.Row="1"
                                 Margin="50,0,0,0"
                                 FontSize="Medium"
-                                Text="Logout" />
+                                Text="{x:Static lang:AppResources.Logout}" />
 
                         </Grid>
                     </Border>

@@ -1,20 +1,9 @@
-﻿using UraniumUI.Pages;
-
 namespace Lynx.Views;
 
-public partial class StatsPage : UraniumContentPage
+public partial class StatsPage : ContentPage
 {
-    StatsViewModel viewModel;
-
-    public StatsPage(StatsViewModel vm)
+	public StatsPage()
 	{
 		InitializeComponent();
-		BindingContext = viewModel = vm;
 	}
-    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
-    {
-        base.OnNavigatedTo(args);
-
-        await viewModel.LoadDataAsync("api/departure/all");
-    }
 }

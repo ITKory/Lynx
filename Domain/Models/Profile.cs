@@ -13,7 +13,7 @@ public partial class Profile
 
     public string? RelativesPhone { get; set; }
 
-    public DateOnly BDay { get; set; }
+    public DateOnly Birthday { get; set; }
 
     public string Call { get; set; } = null!;
 

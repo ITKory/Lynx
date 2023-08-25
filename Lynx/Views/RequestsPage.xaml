@@ -7,8 +7,10 @@
              xmlns:controls="clr-namespace:Lynx.Controls"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+             xmlns:lang="clr-namespace:Lynx.Resources.Languages"
              x:DataType="vm:RequestViewModel"
-             Title="{Binding  Title}">
+             Shell.TabBarIsVisible="False"
+             Title="{x:Static lang:AppResources.Requests}">
     <Border           Stroke="transparent"
                       Margin="10"
                       StrokeShape="{RoundRectangle CornerRadius=15}"
@@ -16,34 +18,36 @@
         <RefreshView IsRefreshing="{Binding IsRefresh}" Command="{Binding RefreshDataCommand}">
         <ScrollView>
             <VerticalStackLayout>
-                <material:TextField
-                    Margin="20"
-                    Title="{Binding Title}"
-                    AllowClear="True"
-                    Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Search}}"/>
+                    <SearchBar
+                                Margin="20"
+                                Placeholder="{x:Static lang:AppResources.Departure}"
+                                SearchCommand="{Binding SearchCommand}"
+                                Text="{Binding SearchText}"      
+                            />
 
-                <controls:AddCardView IsVisible="{Binding IsAdmin}"  />
+                    <controls:AddCardView IsVisible="{Binding IsAdmin}"  />
 
                 <material:TabView Margin="10"  >
-                    <material:TabItem Title="Open requests">
+                    <material:TabItem Title="{x:Static lang:AppResources.OpenRequests}">
                         <material:TabItem.Content>
                             <CollectionView
                                     ItemsSource="{Binding ActiveItems}"
                                     BackgroundColor="Transparent"
                                     SelectionMode="None">
                                 <CollectionView.ItemTemplate >
-                                    <DataTemplate x:DataType="model:ListItemModel">
-                                            <SwipeView>
+                                    <DataTemplate  >
+                                            <SwipeView  IsEnabled="{Binding IsAdmin}"   >
                                                 <SwipeView.LeftItems>
-                                                    <SwipeItems>
-                                                        <SwipeItem Text="Close"
+                                                    <SwipeItems >
+                                                        <SwipeItem Text="{x:Static lang:AppResources.Close}"
+                                                             
                                  IconImageSource="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Close}}"
                                  BackgroundColor="#ffebd3"
                                  Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RequestViewModel}} , Path = CloseRequestCommand}"
                                  CommandParameter="{Binding .}"
                                   />
 
-                                                        <SwipeItem Text="Create departure"
+                                                        <SwipeItem Text="{x:Static lang:AppResources.CreateDeparture}"
                                 IconImageSource="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Forest}}"
                                 BackgroundColor="#d3f2db"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RequestViewModel}} , Path = CreateDepartureCommand}"
@@ -53,7 +57,7 @@
                                                 </SwipeView.LeftItems>
                                                     <SwipeView.RightItems>
                                                         <SwipeItems>
-                                                            <SwipeItem Text="Delete"
+                                                        <SwipeItem Text="{x:Static lang:AppResources.Delete}"
                                                                       
                                 IconImageSource="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Delete}}"
                                 BackgroundColor="#ffbfbf"
@@ -70,19 +74,19 @@
                         </material:TabItem.Content>
                     </material:TabItem>
                     
-                    <material:TabItem Title="Close requests">
+                    <material:TabItem Title="{x:Static lang:AppResources.CloseRequests}">
                         <material:TabItem.Content>
                             <CollectionView
                                    ItemsSource="{Binding DisableItems}"
                                    BackgroundColor="Transparent"
                                    SelectionMode="None">
                                 <CollectionView.ItemTemplate >
-                                    <DataTemplate x:DataType="model:ListItemModel">
+                                    <DataTemplate >
 
-                                        <SwipeView>
+                                            <SwipeView  IsEnabled="{Binding IsAdmin}" >
                                             <SwipeView.LeftItems>
                                                 <SwipeItems>
-                                                    <SwipeItem Text="Open"
+                                                        <SwipeItem Text="{x:Static lang:AppResources.Open}"
                                                         IconImageSource="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Restart_alt}}"
                                                         BackgroundColor="#ffebd3"
                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RequestViewModel}} , Path = OpenRequestCommand}"
@@ -92,7 +96,7 @@
                                             </SwipeView.LeftItems>
                                                 <SwipeView.RightItems>
                                                     <SwipeItems>
-                                                        <SwipeItem Text="Delete"
+                                                        <SwipeItem Text="{x:Static lang:AppResources.Delete}"
                                       
                                                         IconImageSource="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Delete}}"
                                                         BackgroundColor="#ffbfbf"

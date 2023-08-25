@@ -9,8 +9,9 @@
              xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
              xmlns:vm="clr-namespace:Lynx.ViewModels"
              x:DataType="vm:CreateDepartureViewModel"
+             xmlns:lang="clr-namespace:Lynx.Resources.Languages"
              Shell.PresentationMode="ModalAnimated"
-             Title="{Binding Title}">
+             Title="{x:Static lang:AppResources.CreateDeparture} ">
     
     <ScrollView VerticalScrollBarVisibility="Always">
         <VerticalStackLayout>
@@ -27,7 +28,6 @@
                                 <Border.Background>
                                     <LinearGradientBrush>
                                         <GradientStop Color="White" Offset="0.1" />
-
                                         <GradientStop Color="WhiteSmoke" Offset="0.8" />
                                     </LinearGradientBrush>
                                 </Border.Background>
@@ -60,13 +60,13 @@
                                         </HorizontalStackLayout>
                                         <VerticalStackLayout Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" Spacing="5">
                                             <Label   Text="{Binding  SelectedRequest.Lost.Name   }" FontSize="Large" FontAttributes="Bold" TextColor="{StaticResource Gray30}" />
-                                            <Label   Text="{Binding  SelectedRequest.Lost.City.Title , StringFormat='Home city: {0}'}"  />
-                                            <Label   Text="{Binding  SelectedRequest.Lost.BDay, StringFormat='Birthday: {0}'}"  />
+                                            <Label   Text="{Binding  SelectedRequest.Lost.City.Title , StringFormat='Город: {0}'}"  />
+                                            <Label   Text="{Binding  SelectedRequest.Lost.Birthday, StringFormat='Дата рождения: {0}'}"  />
                                         </VerticalStackLayout>
                                     </Grid>
-                                    <Label Margin="5" Text="{Binding SelectedRequest.DateOfLosee, StringFormat='Date of losee: {0}'}" FontSize="Subtitle"/>
-                                    <Label Margin="5"  Text="{Binding SelectedRequest.Face, StringFormat='Face: {0}'}" FontSize="Subtitle"/>
-                                    <Label Margin="5" Text="{Binding SelectedRequest.Comment, StringFormat='Comment: {0}'}" FontSize="Subtitle"/>
+                                    <Label Margin="5" Text="{Binding SelectedRequest.DateOfLosee, StringFormat='Дата пропаджи {0}'}" FontSize="Subtitle"/>
+                                    <Label Margin="5"  Text="{Binding SelectedRequest.Face, StringFormat='Внешний вид: {0}'}" FontSize="Subtitle"/>
+                                    <Label Margin="5" Text="{Binding SelectedRequest.Comment, StringFormat='Комментарий: {0}'}" FontSize="Subtitle"/>
                                 </VerticalStackLayout>
                            
 
@@ -75,6 +75,7 @@
                     </Grid>
                     
                  
+                    <input:FormView SubmitCommand="{Binding CreateDepartureCommand}">
                         <VerticalStackLayout >
                             <Border
                                  Margin="20,0"
@@ -82,8 +83,7 @@
                                  Stroke="{StaticResource Gray100}"
                                  StrokeThickness="0">
                                 <VerticalStackLayout Spacing="10">
-                                    
-                                <material:PickerField Title="Urgent" SelectedIndex="1" SelectedItem="{Binding IsUrgent}"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Expand_circle_down}}">
+                                    <material:PickerField Title="{x:Static lang:AppResources.Urgent}" SelectedIndex="1" SelectedItem="{Binding IsUrgent}"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Expand_circle_down}}">
                                     <material:PickerField.ItemsSource>
                                     <x:Array Type="{x:Type x:Boolean}">
                                             <x:Boolean>True</x:Boolean>
@@ -93,24 +93,26 @@
                                     <validation:RequiredValidation />
                                 </material:PickerField>
 
-                                <material:TextField Text="{Binding MissingLocation}" Title="Lose Location" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Map}}"/>
+                                    <material:TextField Text="{Binding DepartureCoordinates}" Title="{x:Static lang:AppResources.DepartureCoordinates}" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Map}}"/>
 
-                                <material:PickerField Title="Administrator" ItemsSource="{Binding Calls}" SelectedItem="{Binding AdministratorCall }"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Expand_circle_down}}">
+                                    <material:PickerField Title="{x:Static lang:AppResources.Administrator}" ItemsSource="{Binding Calls}" SelectedItem="{Binding AdministratorCall }"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Expand_circle_down}}">
                                     <validation:RequiredValidation />
                                 </material:PickerField>
 
-                                <material:PickerField Title="Cartographer" ItemsSource="{Binding Calls}" SelectedItem="{Binding  CartographerCall}" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Expand_circle_down}}">
+                                    <material:PickerField Title="{x:Static lang:AppResources.Cartographer}" ItemsSource="{Binding Calls}" SelectedItem="{Binding  CartographerCall}" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Expand_circle_down}}">
                                     <validation:RequiredValidation />
                                 </material:PickerField>
 
                                 <material:DatePickerField 
                                           Date="{Binding DepartureDate}"
-                                          Title="Pick a date"
+                                          Title="{x:Static lang:AppResources.PickAdate}"
                                           AllowClear="True" />
                                 </VerticalStackLayout>
                             </Border>
                         </VerticalStackLayout>
-                    <Button Text="Create departure" Command="{Binding CreateDepartureCommand}"  Margin="10"/>
+
+                        <Button  Text="{x:Static lang:AppResources.Create}"  input:FormView.IsSubmitButton="True" Margin="10" />
+                  </input:FormView>
                 </VerticalStackLayout>
             </Border>
         </VerticalStackLayout>

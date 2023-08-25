@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<uranium:UraniumContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:vm="clr-namespace:Lynx.ViewModels"
+			 x:Class="Lynx.Views.HubPage"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+             xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+             xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
+             xmlns:controls="clr-namespace:Lynx.Controls"
+             xmlns:model="clr-namespace:Lynx.Models"
+             xmlns:lang="clr-namespace:Lynx.Resources.Languages"
+             BackgroundColor="#edeef0"
+             Shell.NavBarIsVisible="False"
+			 x:DataType="vm:HubViewModel">
+    <ScrollView>
+        <VerticalStackLayout
+                Spacing="5"
+                Padding="5"
+                VerticalOptions="StartAndExpand">
+            <HorizontalStackLayout Spacing="4"  Padding="15" HorizontalOptions="Center" Margin="0,0,0,0"  >
+                <Border  Stroke="transparent"
+                          Padding="6"
+                        BackgroundColor="#ffebd3">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15" />
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=GoToRequestsCommand}" CommandParameter="{Binding .}" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="4"  Padding="5" HorizontalOptions="Center"    >
+                        <Image Source="{FontImageSource Glyph={x:Static m:MaterialRegular.Quick_contacts_mail},FontFamily=MaterialRegular, Color=orange}" />
+                        <Label Text="{x:Static lang:AppResources.Requests}"    TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Black}}" />
+                    </VerticalStackLayout>
+                </Border>
+                <Border  
+                Stroke="transparent"
+                Padding="6"
+                BackgroundColor="#d3f2db">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15" />
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"   Command="{Binding Path=GoToStatsCommand}" CommandParameter="{Binding .}" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="4"  Padding="5" HorizontalOptions="Center" >
+                        <Image Source="{FontImageSource Glyph={x:Static m:MaterialRegular.Bar_chart},FontFamily=MaterialRegular, Color=green}" />
+                        <Label Text="{x:Static lang:AppResources.Stats}"   TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Black}}" />
+                    </VerticalStackLayout>
+                </Border>
+                
+                <Border 
+                IsVisible="{Binding IsAdmin}"
+                Padding="6"
+                Stroke="transparent"
+                BackgroundColor="#bfd8ea">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15" />
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer  NumberOfTapsRequired="1"  Command="{Binding Path=GoToCrewsCommand}" CommandParameter="{Binding .}" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="4"  Padding="5" HorizontalOptions="Center" >
+                        <Image Source="{FontImageSource Glyph={x:Static m:MaterialRegular.People},FontFamily=MaterialRegular, Color=Blue}" />
+                        <Label Text="{x:Static lang:AppResources.Crews}"  TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Black}}" />
+                    </VerticalStackLayout>
+                </Border>
+                <Border 
+                IsVisible="{Binding IsSeeker}"
+                Padding="6"
+                Stroke="transparent"
+                BackgroundColor="#bfd8ea">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15" />
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer  NumberOfTapsRequired="1"  Command="{Binding Path=GoToCrewsCommand}" CommandParameter="{Binding .}" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="4"  Padding="5" HorizontalOptions="Center" >
+                        <Image Source="{FontImageSource Glyph={x:Static m:MaterialRegular.People},FontFamily=MaterialRegular, Color=Blue}" />
+                        <Label Text="{x:Static lang:AppResources.MyCrew}"  TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Black}}" />
+                    </VerticalStackLayout>
+                </Border>
+                <Border  
+                  Padding="6"
+                  BackgroundColor="#d9d9d9"
+                  Stroke="transparent" 
+                  IsVisible="{Binding IsAdmin}"
+                    >
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15" />
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"  Command="{Binding Path=GoToRegisterCommand}" CommandParameter="{Binding .}"  />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="4"  Padding="5" HorizontalOptions="Center" >
+                        <Image Source="{FontImageSource Glyph={x:Static m:MaterialRegular.Qr_code_scanner},FontFamily=MaterialRegular, Color=Gray}" />
+                        <Label  Text="{x:Static lang:AppResources.Register}"  TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Black}}" />
+                    </VerticalStackLayout>
+                </Border>
+            </HorizontalStackLayout>
+            <Border             Stroke="transparent"
+                     Margin="10"
+                     StrokeShape="{RoundRectangle CornerRadius=15}"
+                     BackgroundColor="White">
+                <ScrollView>
+                    <VerticalStackLayout>
+                        <SearchBar
+                                Margin="20"
+                                Placeholder="{x:Static lang:AppResources.Departure}"
+                                SearchCommand="{Binding SearchCommand}"
+                                Text="{Binding SearchText}"      
+                            />
+                        <material:TabView Margin="10"  >
+                            <material:TabItem Title="{x:Static lang:AppResources.OpenDepartures}" >
+                                <material:TabItem.Content>
+                                    <CollectionView
+                                    ItemsSource="{Binding ActiveItems}"
+                                    BackgroundColor="Transparent"
+                                    SelectionMode="None">
+                                        <CollectionView.ItemTemplate >
+                                            <DataTemplate  >
+                                                <SwipeView IsEnabled="{Binding IsAdmin}">
+                                                        <SwipeView.LeftItems >
+                                                            <SwipeItems>
+                                                            <SwipeItem Text="{x:Static lang:AppResources.Close}"
+                                                                       
+                                                                     IconImageSource="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Close}}"
+                                                                     BackgroundColor="#ffebd3"
+                                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HubViewModel}} , Path = CloseDepartureCommand}"
+                                                                     CommandParameter="{Binding .}"
+                                                                      />
+                                                            </SwipeItems>
+                                                        </SwipeView.LeftItems>
+                                                        <SwipeView.RightItems>
+                                                            <SwipeItems>
+                                                            <SwipeItem Text="{x:Static lang:AppResources.Delete}"
+                                                                     IconImageSource="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Delete}}"
+                                                                     BackgroundColor="#ffbfbf"
+                                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HubViewModel}} , Path = DeleteDepartureCommand}"
+                                                                     CommandParameter="{Binding .}"
+                                                                       />
+                                                            </SwipeItems>
+                                                        </SwipeView.RightItems>
+                                                        <controls:ItemCardView  />
+                                                    </SwipeView>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </material:TabItem.Content>
+                            </material:TabItem>
+                            <material:TabItem Title="{x:Static lang:AppResources.CloseDepartures}">
+                                <material:TabItem.Content>
+                                    <CollectionView
+                                    ItemsSource="{Binding DisableItems}"
+                                    BackgroundColor="Transparent"
+                                    SelectionMode="None">
+                                        <CollectionView.ItemTemplate >
+                                            <DataTemplate x:DataType="model:ListItemModel">
+                                                        <controls:ItemCardView  />
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </material:TabItem.Content>
+                            </material:TabItem>
+                        </material:TabView>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Border>
+     </VerticalStackLayout>
+    </ScrollView>
+</uranium:UraniumContentPage>

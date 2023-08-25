@@ -57,8 +57,9 @@ namespace Lynx.ViewModels
             _lynxService = lynxApi;
             Cities = new List<string>
             {
-                 "Moscow",
-                 "Bor"
+                 "Москва",
+                 "Бор",
+                 "Нижний Новгород"
             };
          
 
@@ -67,8 +68,10 @@ namespace Lynx.ViewModels
         [RelayCommand]
         private async void CreateRequest()
         {
-            /*var homeLocation = HomeLocation.Split(",", 2);
+           var homeLocation = HomeLocation.Split(",", 2);
             var loseLocation = LoseLocation.Split(",", 2);
+            var test_1 = DateOfLose;
+            var test_2 = Birthday;
             var newSearchRequest =  new SearchRequest()
             {
                 Comment = Comment,
@@ -86,13 +89,13 @@ namespace Lynx.ViewModels
                 },
                 Lost = new Profile
                 {
-                    BDay = DateOnly.FromDateTime(Birthday),
+                    Birthday = DateOnly.FromDateTime(Birthday) ,
                     Name = Name,
                     City = new City { Title=City},
                     Location = new Domain.Models.Location
                     {
                         Latitude = homeLocation[0],
-                        Longitude = loseLocation[1],
+                        Longitude = homeLocation[1],
 
                     },
                     Phone = PhoneNumber,
@@ -102,57 +105,15 @@ namespace Lynx.ViewModels
                 {
                     Name = InformerName,
                     Phone = InformerPhoneNumber,
-                    RelativesPhone = InformerRelativesPhoneNumber
+                    RelativesPhone = InformerRelativesPhoneNumber,
+                    City = new City { Title = City }
 
                 },
                 RequestAdministratorId = Convert.ToInt32(await SecureStorage.Default.GetAsync("user_id")),
-
-            };*/
-           // var homeLocation = HomeLocation.Split(",", 2);
-           // var loseLocation = LoseLocation.Split(",", 2);
-            var newSearchRequest = new SearchRequest()
-            {
-                Comment = "Comment",
-                Date = DateOnly.FromDateTime(DateTime.Now),
-                DateOfLosee = DateOnly.FromDateTime(DateTime.Now),
-                Face = "Face",
-                IsActive = true,
-                IsDied = false,
-                IsFound = false,
-                Location = new Domain.Models.Location
-                {
-                    Latitude ="56.021352",
-                    Longitude = "45.040921",
-                },
-            
-                Lost = new Profile
-                {
-                    BDay = DateOnly.FromDateTime(DateTime.Now),
-                    Name = "Имя",
-                    City = new City { Title = "Бор" },
-                    Location = new Domain.Models.Location
-                    {
-                        Latitude = "56.288225",
-                        Longitude = "43.938912",
-
-                    },
-                    Phone = "12789981698 ",
-                    RelativesPhone = " 8613688205858"
-                },
-                MissingInformer = new Profile
-                {
-                    Name = "",
-                    Phone = " 8615211546505",
-                    RelativesPhone = " +8625212546504",
-                    CityId = 3
-
-                },
-                RequestAdministratorId = Convert.ToInt32(await SecureStorage.Default.GetAsync("user_id")),
-
-            };
+            }; 
             try
             {
-             _lynxService.CreateRequestAsync("api/request/add", newSearchRequest);
+               await _lynxService.CreateRequestAsync(newSearchRequest);
                await Shell.Current.GoToAsync("..");
             }
             catch(  Exception ex)

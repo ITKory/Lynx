@@ -1,19 +1,20 @@
-﻿namespace Lynx.Views;
+﻿using UraniumUI.Pages;
 
-public partial class MapPage : ContentPage
+namespace Lynx.Views;
+
+public partial class HubPage : UraniumContentPage
 {
-    public MapViewModel viewModel;
-	public MapPage(MapViewModel vm)
+    HubViewModel viewModel;
+
+    public HubPage(HubViewModel vm)
 	{
 		InitializeComponent();
 		BindingContext = viewModel = vm;
- 
 	}
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
 
         await viewModel.LoadDataAsync("api/departure/all");
-        viewModel.LoadMap();
     }
 }

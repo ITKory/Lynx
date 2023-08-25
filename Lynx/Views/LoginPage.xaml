@@ -7,10 +7,12 @@
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
              xmlns:vm="clr-namespace:Lynx.ViewModels"
+             xmlns:lang="clr-namespace:Lynx.Resources.Languages"
+             xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
              x:DataType="vm:LoginViewModel"
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False"
-             Title="{Binding Title}" BackgroundColor="#eeeaea">
+              BackgroundColor="#eeeaea">
     <Grid RowDefinitions="300,300,400">
         <!--  Welcome  animation   -->
         <VerticalStackLayout
@@ -34,27 +36,28 @@
                 Stroke="{StaticResource Gray100}"
                 StrokeShape="RoundRectangle 10"
                 StrokeThickness="1">
-                <VerticalStackLayout Spacing="10">    
-                    <material:TextField
-                            Title="E-mail"
+                <VerticalStackLayout Spacing="10">
+                    <input:FormView SubmitCommand="{Binding LoginCommand}">
+                        <material:TextField
+                            Title="{x:Static lang:AppResources.Login}"
                             AllowClear="True"
                             Text="{Binding UserLogin}"
-                            Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Email}}"/>  
-                    <material:TextField
-                            Title="Password"
+                            Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Email}}"/>
+                        <material:TextField
+                            Title="{x:Static lang:AppResources.Password}"
                             Text="{Binding UserPassword}"
                             AllowClear="True"
                             IsPassword="True"
                             Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Password}}"/>
-
-                    <Button Command="{Binding LoginCommand}" Text="Login" IsEnabled="{Binding IsButtonEnabled}" />
+                        <Button input:FormView.IsSubmitButton="True" Text="{x:Static lang:AppResources.LoginBtn}" IsEnabled="{Binding IsButtonEnabled}" Margin="10" />
+                    </input:FormView>
                 </VerticalStackLayout>
             </Border>
             <Label
                 FontAttributes="Bold"
                 FontSize="Subtitle"
                 HorizontalOptions="Center"
-                Text="Forgot Password?"
+                Text="{x:Static lang:AppResources.ForgotPassword}"
                 TextColor="{StaticResource Primary}"
                 TextDecorations="Underline">
                 <Label.GestureRecognizers>
@@ -70,12 +73,11 @@
             Spacing="5"
             VerticalOptions="Center">
             <Label
-                x:Name="lblRegistration"
                 FontSize="Subtitle"
-                Text="Don't have an account? " />
+                Text="{x:Static lang:AppResources.DontHaveAnAccount}" />
             <Label
                 FontSize="Subtitle"
-                Text="Register"
+                Text="{x:Static lang:AppResources.Registration}"
                 TextColor="{StaticResource Primary}"
                 TextDecorations="Underline">
                 <Label.GestureRecognizers>

@@ -6,6 +6,7 @@
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
              xmlns:vm="clr-namespace:Lynx.ViewModels"
              x:DataType="model:ListItemModel"
+             xmlns:lang="clr-namespace:Lynx.Resources.Languages"
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
              >
     <Border
@@ -28,7 +29,6 @@
                 <Border   Stroke="transparent"
                           Padding="6"
                           Margin="3,3,25,3"
-                        
                           >
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10" />
@@ -49,14 +49,25 @@
             HorizontalTextAlignment="Start"
             Text="{Binding  Title}"
           />
-                <Label
-            HorizontalTextAlignment="Start"
-            Text="{Binding  BDay}"
-            TextColor="{StaticResource Gray30}" />  
-                <Label
-            HorizontalTextAlignment="Start"
-            Text="{Binding   City}"
-            TextColor="{StaticResource Gray30}" />
+                <HorizontalStackLayout Spacing="5"  >
+                    <Label
+                         HorizontalTextAlignment="Start"
+                         FontAttributes="Bold"
+                         Text="{x:Static lang:AppResources.Age  }" />
+                    <Label
+                         HorizontalTextAlignment="Start"
+                         Text="{Binding Age }" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="5"  >
+                    <Label
+                         HorizontalTextAlignment="Start"
+                         FontAttributes="Bold"
+                         Text="{x:Static lang:AppResources.City }" />
+                    <Label
+                        HorizontalTextAlignment="Start"
+                        Text="{Binding   City}"
+                          />
+                </HorizontalStackLayout>
             </VerticalStackLayout>
       
         </Grid>

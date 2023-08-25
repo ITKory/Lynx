@@ -1,25 +1,19 @@
 ﻿using Domain.Models;
 using Lynx.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Lynx.Service
 {
     public class LynxApi 
     {
-        HttpClient _client;
-        JsonSerializerOptions _serializerOptions;
-        private string emulator = "http://10.0.2.2:5008/";
-        private string phone = "http://192.168.31.236:5008/";
-        public LynxApi()
+        private HttpClient _client;
+        private JsonSerializerOptions _serializerOptions;
+        private string phone = "http://192.168.1.95:5008/";
+        public LynxApi()    
         {
             _client = new HttpClient
             {
-                Timeout = new (0, 0, 10)
+                Timeout = new (0, 0, 20),
             };
             _serializerOptions = new JsonSerializerOptions
             {
@@ -27,10 +21,52 @@ namespace Lynx.Service
                 WriteIndented = true
             };
         }
-        public async Task<List<T>> GetRefreshDataListAsync<T>(string path )
+        private async Task<string> PostAsync<T>(string path, T entity)
         {
             var uri = new Uri(phone + path);
+            string json = JsonSerializer.Serialize<T>(entity, _serializerOptions);
+            StringContent content = new(json, Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync(uri, content);
+            if (response.IsSuccessStatusCode)
+                return await response.Content.ReadAsStringAsync();
+            else
+                return string.Empty;
+        }
 
+        private async Task<string> PutAsync<T>(string path, T entity)
+        {
+            var uri = new Uri(phone + path);
+            string json = JsonSerializer.Serialize<T>(entity, _serializerOptions);
+            StringContent content = new(json, Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync(uri, content);
+            if (response.IsSuccessStatusCode)
+                return await response.Content.ReadAsStringAsync();
+            else
+                return string.Empty;
+        }
+
+        private async Task<string> GetAsync( string path )
+        {
+            var uri = new Uri(phone + path);
+            var response = await _client.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+                return  await response.Content.ReadAsStringAsync();
+            else
+                return string.Empty;
+            
+        } 
+        private async Task<string> DeleteAsync( string path )
+        {
+            var uri = new Uri(phone + path);
+            var response = await _client.DeleteAsync(uri);
+            if (response.IsSuccessStatusCode)
+                return await response.Content.ReadAsStringAsync();
+            else
+                return string.Empty;
+        }
+        public async Task<List<T>> GetDataListAsync<T>(string path )
+        {
+            var uri = new Uri(phone + path);
             List<T> RefreshData = new();
             try
             {
@@ -48,150 +84,120 @@ namespace Lynx.Service
             return RefreshData;
         }
      
-        public async Task<LoggedInUserModel> LoginUser(string path,string login, string password)
+        public async Task<LoggedInUserModel> LoginUser(string login, string password)
         {
-            var uri = new Uri(phone + path);
-
-            string json = JsonSerializer.Serialize(new { login, password }, _serializerOptions);
-            StringContent content = new(json, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync(uri, content);
-                if (response.IsSuccessStatusCode)
-            {
-                string responseContent = await response.Content.ReadAsStringAsync();
+           var responseContent = await PostAsync("api/user/login", new { login, password });
+            if (responseContent == string.Empty)
+                  throw new Exception("error");
+            else
                 return JsonSerializer.Deserialize<LoggedInUserModel>(responseContent, _serializerOptions);
-            }
-            return  null;
         }
 
-        public async void CreateEntityAsync<T>(string path , T entity)
+
+        public async Task<User> CreateUser(User user)
         {
-            var uri = new Uri(phone + path);
-
-
-            var accessToken = await SecureStorage.Default.GetAsync("access_token");
-            if (accessToken != null && _client.DefaultRequestHeaders.Contains("Authorization")  == false)
-            {
-                _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-            }
-
-            string json = JsonSerializer.Serialize<T>(entity, _serializerOptions);
-            StringContent content = new(json, Encoding.UTF8, "application/json");
-
-            var   response = await _client.PostAsync(uri, content);
-            if (!response.IsSuccessStatusCode)
-                throw new NullReferenceException($" response status code:{response.StatusCode}");
+            var responseContent = await PostAsync("api/user/add", user);
+            if (responseContent == string.Empty)
+                return null;
+            else
+                return JsonSerializer.Deserialize<User>(responseContent, _serializerOptions);
         }
 
-        public async void CreateRequestAsync(string path, SearchRequest request)
+        public async Task<SearchRequest> CreateRequestAsync( SearchRequest request)
         {
-            var uri = new Uri(phone + path);
-
-            string json = JsonSerializer.Serialize(request, _serializerOptions);
-            StringContent content = new(json, Encoding.UTF8, "application/json");
-
-            var response = await _client.PostAsync(uri, content);
-            if (!response.IsSuccessStatusCode)
-                throw new NullReferenceException($" response status code:{response.StatusCode}");
+            var responseContent = await PostAsync("api/request/add", request);
+            if (responseContent == string.Empty)
+                return null;
+            else
+                return JsonSerializer.Deserialize<SearchRequest>(responseContent, _serializerOptions);
         }
-        public async void CloseDepartureAsync(string path, int departureId)
+        public async Task<SearchDeparture> CreateDepartureAsync(SearchDeparture request)
         {
-            var uri = new Uri(phone + path);
-            string json = JsonSerializer.Serialize(departureId, _serializerOptions);
-            StringContent content = new(json, Encoding.UTF8, "application/json");
-            var response = await _client.PutAsync(uri, content);
-            if (!response.IsSuccessStatusCode)
-                throw new NullReferenceException($" response status code:{response.StatusCode}");
+            var responseContent = await PostAsync("api/departure/add", request);
+            if (responseContent == string.Empty)
+                return null;
+            else
+                return JsonSerializer.Deserialize<SearchDeparture>(responseContent, _serializerOptions);
         }
-        public async void RegistrationSeekerAsync(string path, int userId  , int departureId, TimeOnly startTime)
-        {
-            var uri = new Uri(phone + path);
- 
-            string json = JsonSerializer.Serialize(new {  departureId,userId,startTime }, _serializerOptions);
-            StringContent content = new(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync(uri, content);
-            if (!response.IsSuccessStatusCode)
-                throw new NullReferenceException($" response status code:{response.StatusCode}");
+        public async Task<SearchRequest> RegistrationSeekerAsync( int userId  , int departureId, TimeOnly startTime )
+        {
+
+            var responseContent = await PostAsync("api/departure/registration", new {userId,departureId, startTime});
+            if (responseContent == string.Empty)
+                return null;
+            else
+                return JsonSerializer.Deserialize<SearchRequest>(responseContent, _serializerOptions);
         }
 
   
-        public async Task<SearchDeparture> GetDepartureByIdAsync(string path )
+        public async Task<SearchDeparture> GetDepartureByIdAsync(int id )
         {
-            var uri = new Uri(phone + path);
-
-
-            var response = await _client.GetAsync(uri);
-            if (response.IsSuccessStatusCode)
-            {
-                string responseContent = await response.Content.ReadAsStringAsync();
+            var responseContent = await GetAsync($"api/departure/get?departureId={id}");
+            if (responseContent == string.Empty)
+                return null;
+            else
                 return JsonSerializer.Deserialize<SearchDeparture>(responseContent, _serializerOptions);
-            }
-            return null;
 
         }
-        public async Task<SearchRequest> GetRequestByIdAsync(string path)
+        public async Task<SearchRequest> GetRequestByIdAsync(int id)
         {
-            var uri = new Uri(phone + path);
-
-
-            var response = await _client.GetAsync(uri);
-            if (response.IsSuccessStatusCode)
-            {
-                string responseContent = await response.Content.ReadAsStringAsync();
+            var responseContent = await GetAsync($"api/request/get?requestId={id}");
+            if (responseContent == string.Empty)
+                return null;
+            else
                 return JsonSerializer.Deserialize<SearchRequest>(responseContent, _serializerOptions);
-            }
-            return null;
 
         }    
-        public async void UpdateRequestListItemAsync(string path , ListItemModel item)
+        public async Task<ListItemModel> UpdateDepartureListItemAsync(ListItemModel item)
         {
-            var uri = new Uri(phone + path);
-            string json = JsonSerializer.Serialize(item, _serializerOptions);
-            StringContent content = new(json, Encoding.UTF8, "application/json");
-            var response = await _client.PutAsync(uri,content);
-            if (!response.IsSuccessStatusCode)
-                throw new NullReferenceException($" response status code:{response.StatusCode}");
-        }
-        public async void RemoveRequestListItemByIdAsync(string path)
-        {
-            var uri = new Uri(phone + path);
-            var response = await _client.DeleteAsync(uri);
-            if (!response.IsSuccessStatusCode)
-                throw new NullReferenceException($" response status code:{response.StatusCode}");
-        }
-
-        public async Task<Profile> GetProfileAsync(string path)
-        {
-            var uri = new Uri(phone + path);
-
-
-            var response = await _client.GetAsync(uri);
-            if (response.IsSuccessStatusCode)
-            {
-                string responseContent = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<Profile>(responseContent, _serializerOptions);
-            }
+            var responseContent = await PutAsync("api/departure/update", item);
+            if (responseContent == string.Empty)
+                return null;
             else
-            {
-                throw new NullReferenceException($" response status code:{response.StatusCode}");
-            }
+                return JsonSerializer.Deserialize<ListItemModel>(responseContent, _serializerOptions);
+        }    
+        public async Task<ListItemModel> UpdateRequestListItemAsync(ListItemModel item)
+        {
+            var responseContent = await PutAsync("api/request/update", item);
+            if (responseContent == string.Empty)
+                return null;
+            else
+                return JsonSerializer.Deserialize<ListItemModel>(responseContent, _serializerOptions);
+        }
+        public async Task<User> RemoveDepartureListItemByIdAsync(int id)
+        {
+            var responseContent = await DeleteAsync($"api/departure/remove?departureId={id}");
+            if (responseContent == string.Empty)
+                return null;
+            else
+                return JsonSerializer.Deserialize<User>(responseContent, _serializerOptions);
+        } 
+        public async Task<User> RemoveRequestListItemByIdAsync(int id)
+        {
+            var responseContent = await DeleteAsync($"api/request/remove?requestId={id}");
+            if (responseContent == string.Empty)
+                return null;
+            else
+                return JsonSerializer.Deserialize<User>(responseContent, _serializerOptions);
+        }
+
+        public async Task<Profile> GetProfileByIdAsync(int id)
+        {
+            var responseContent = await GetAsync($"api/profile/get?userId={id}");
+            if (responseContent == string.Empty)
+                return null;
+            else
+                return JsonSerializer.Deserialize<Profile>(responseContent, _serializerOptions);
         }
      
-        public async  Task<List<ParticipantModel>> GetParticipantsAsync(string path)
+        public async  Task<List<ParticipantModel>> GetParticipantsByDepartureIdAsync(int id)
         {
-            var uri = new Uri(phone + path);
-            var response = await _client.GetAsync(uri);
-            if (response.IsSuccessStatusCode)
-            {
-                string responseContent = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<List<ParticipantModel>>(responseContent, _serializerOptions);
-            }
+            var responseContent = await GetAsync($"api/departure/participants?departureId={id}");
+            if (responseContent == string.Empty)
+                return null;
             else
-            {
-                throw new NullReferenceException($" response status code:{response.StatusCode}");
-            }
- 
-
+                return JsonSerializer.Deserialize<List<ParticipantModel>>(responseContent, _serializerOptions);
         }
 
     }

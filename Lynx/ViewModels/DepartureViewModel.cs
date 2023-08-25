@@ -19,7 +19,7 @@ namespace Lynx.ViewModels
         [RelayCommand]
         private async void GoToDetails(ListItemModel item)
         {
-            var fullDepartureInfo = await lynxService.GetDepartureByIdAsync($"api/departure/get?departureId={item.Id}");
+            var fullDepartureInfo = await lynxService.GetDepartureByIdAsync(item.Id);
             if (fullDepartureInfo != null)
             {
                 await Shell.Current.GoToAsync(nameof(DepartureDetailPage), true, new Dictionary<string, object>

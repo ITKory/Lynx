@@ -7,6 +7,7 @@
              xmlns:controls="clr-namespace:Lynx.Controls"
              x:Class="Lynx.Views.DeparturePage"
              xmlns:vm="clr-namespace:Lynx.ViewModels"
+             xmlns:lang="clr-namespace:Lynx.Resources.Languages"
              xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
              x:DataType="vm:DepartureViewModel"
              BackgroundColor="#edeef0"
@@ -20,11 +21,11 @@
             <VerticalStackLayout>
                 <material:TextField
                          Margin="20"
-                         Title="Departure"
+                         Title="{x:Static lang:AppResources.Departure}"
                          AllowClear="True"
                          Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Search}}"/>
                 <material:TabView Margin="10"  >
-                     <material:TabItem Title="Open departures" >
+                    <material:TabItem Title="{x:Static lang:AppResources.OpenDepartures}" >
                 <material:TabItem.Content>
                     <Border BackgroundColor="{StaticResource Gray100}" Margin="5"  >
                         <Border.StrokeShape>
@@ -54,7 +55,7 @@
             </material:TabItem>
 
 
-            <material:TabItem Title="Close departures">
+                    <material:TabItem Title="{x:Static lang:AppResources.CloseDepartures}">
                 <material:TabItem.Content>
                     <Border
                         BackgroundColor="{StaticResource Gray200}"
@@ -99,6 +100,4 @@
             </VerticalStackLayout>
         </ScrollView>
     </Border>
-
-
 </ContentPage>

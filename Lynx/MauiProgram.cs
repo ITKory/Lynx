@@ -35,8 +35,8 @@ public static class MauiProgram
 		builder.Services.AddSingleton<LynxApi>();
 		builder.Services.AddSingleton<IConnectivity>((e) => Connectivity.Current);
 
-		builder.Services.AddSingleton<StatsViewModel>();
-		builder.Services.AddSingleton<StatsPage>();
+		builder.Services.AddTransient<HubViewModel>();
+		builder.Services.AddTransient<HubPage>();
 
 		builder.Services.AddTransient<MapViewModel>();
 		builder.Services.AddTransient<MapPage>();
@@ -76,6 +76,9 @@ public static class MauiProgram
 
 		builder.Services.AddTransient<RegistrationPage>();
 		builder.Services.AddTransient<RegistrationViewModel>();
+
+		builder.Services.AddTransient<StatsPage>();
+		builder.Services.AddTransient<StatsViewModel>();
 
 
         return builder.Build();

@@ -12,7 +12,7 @@ public partial class BaseViewModel : ObservableObject
 
     public BaseViewModel ()
     {
-       var roles =  SecureStorage.Default.GetAsync("roles").GetAwaiter().GetResult();
+        var roles = Task.Run(async () => await SecureStorage.Default.GetAsync("roles")).Result;
         if (roles != null)
         {
             if (roles.Contains("admin"))

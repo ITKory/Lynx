@@ -1,24 +1,18 @@
 ﻿using Lynx.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Maui.Storage;
 using Lynx.Models;
 using Mopups.Services;
 using Lynx.Controls;
 
 namespace Lynx.ViewModels
 {
-    public partial class LoginViewModel : BaseViewModel
+    public partial class LoginViewModel :ObservableObject
     {
         private readonly LynxApi _lynxService;
         private readonly IConnectivity _connectivity;
  
         public LoginViewModel(IConnectivity connectivity, LynxApi lynxApi)
         {
-            Title = "Login Page";
+        
             _lynxService = lynxApi;
             _connectivity = connectivity;
             
@@ -42,7 +36,6 @@ namespace Lynx.ViewModels
         [RelayCommand]
         private async void Login( object e)
         {
-
             await MopupService.Instance.PushAsync(new LoadingMopup());
             IsButtonEnabled = false;
             if (_connectivity.NetworkAccess == NetworkAccess.Internet)
@@ -50,15 +43,14 @@ namespace Lynx.ViewModels
                 LoggedInUserModel loggedData;
                 try
                 {
-                      loggedData = await _lynxService.LoginUser("api/user/login", UserLogin, UserPassword);
+                      loggedData = await _lynxService.LoginUser( UserLogin, UserPassword);
                     if (loggedData != null)
                     {
                  
                         await SecureStorage.Default.SetAsync("access_token", loggedData.Token);
                         await SecureStorage.Default.SetAsync("user_id", loggedData.User.Id.ToString());
                         await SecureStorage.Default.SetAsync("roles",string.Join(";",loggedData.Roles)); 
-                        
-                        await Shell.Current.GoToAsync($"//{nameof(StatsPage)}", true);
+                        await Shell.Current.GoToAsync($"//{nameof(HubPage)}", true);
                     }
                     else
                         await Shell.Current.DisplayAlert("user is hull", "user is null", "ok");

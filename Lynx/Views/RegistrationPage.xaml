@@ -19,7 +19,15 @@
             <Label
                 FontAttributes="Bold"
                 FontSize="Large"
-                Text="Welcome Back Again!" />
+                HorizontalOptions="Center"
+                Text="Welcome !" />     
+            <Label
+                FontAttributes="Bold"
+                FontSize="Large"
+                TextColor="Red"
+                HorizontalOptions="Center"
+                Text="{Binding ErrorText}"
+                IsVisible="{Binding ErrorVisible}"/>
         </VerticalStackLayout>
         <!--  Registration Container  -->
         <ScrollView  Grid.Row="1"
@@ -28,74 +36,78 @@
             <VerticalStackLayout
             >
                 <Border
-                Margin="20,0"
                 Padding="20"
                 Stroke="{StaticResource Gray100}"
                 StrokeShape="RoundRectangle 10"
                 StrokeThickness="1">
-                    <VerticalStackLayout Spacing="10">
+                    <VerticalStackLayout Spacing="10" >
 
+                        <input:FormView SubmitCommand="{Binding RegistrationCommand}">
+                            <material:TextField Title="E-mail" Text="{Binding Email }" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Email}}">
+                                <validation:RequiredValidation />
+                                <validation:RegexValidation Pattern="{x:Static input:AdvancedEntry.REGEX_EMAIL}" Message="Invalid email address" />
+                            </material:TextField>
 
-                        <material:TextField Title="E-mail" Text="{Binding Email }" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Email}}">
-                            <validation:RequiredValidation />
-                            <validation:RegexValidation Pattern="{x:Static input:AdvancedEntry.REGEX_EMAIL}" Message="Invalid email address" />
-                        </material:TextField>
+                            <material:TextField Title="Login" Text="{Binding Login }" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Email}}">
+                                <validation:RequiredValidation />
+                                <validation:MinLengthValidation MinLength="4" />
+                            </material:TextField>
 
-                        <material:TextField
+                            <material:TextField
                              Title="Password"
                              AllowClear="True"
                              IsPassword="True"
+                             Text="{Binding Password}"
                              Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Password}}">
-                            <validation:RequiredValidation />
-                            <validation:MinLengthValidation MinLength="8" />
-                        </material:TextField>
-
-
-                        <material:TextField Title="Name" Text="{Binding Name}" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Person}}">
-                            <validation:LettersOnlyValidation AllowSpaces="True" />
-                            <validation:RequiredValidation />
-                            <validation:MinLengthValidation MinLength="5" />
-                        </material:TextField>
-
-                        <material:TextField Title="Surname" Text="{Binding Surname}" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Person}}" >
-                            <material:TextField.Validations>
                                 <validation:RequiredValidation />
+                                <validation:MinLengthValidation MinLength="8" />
+                            </material:TextField>
+
+                            <material:TextField Title="Name" Text="{Binding Name}" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Person}}">
                                 <validation:LettersOnlyValidation AllowSpaces="True" />
-                                <validation:MinLengthValidation MinLength="5" />
-                         
-                            </material:TextField.Validations>
-                        </material:TextField>
-
-                        <material:TextField Title="Birtday" Text="{Binding BDay}" Keyboard="Numeric" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}}">
-                            <material:TextField.Validations>
-                                <validation:MinValueValidation MinValue="18" />
-                                <validation:DigitsOnlyValidation />
-                            </material:TextField.Validations>
-                        </material:TextField>
-                        
-                        <material:AutoCompleteTextField Title="City" ItemsSource="{Binding Cities}" SelectedText="{Binding SelectedCity}">
-                            <material:AutoCompleteTextField.Validations>
                                 <validation:RequiredValidation />
-                            </material:AutoCompleteTextField.Validations>
-                        </material:AutoCompleteTextField>
+                                <validation:MinLengthValidation MinLength="4" />
+                            </material:TextField>
 
+                            <material:TextField Title="Surname" Text="{Binding Surname}" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Person}}" >
+                                <material:TextField.Validations>
+                                    <validation:RequiredValidation />
+                                    <validation:LettersOnlyValidation AllowSpaces="True" />
+                                    <validation:MinLengthValidation MinLength="5" />
 
-                        <material:TextField Title="Call" Text="{Binding Call}" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular._10mp}}">
-                            <validation:RequiredValidation />
-                        </material:TextField>
+                                </material:TextField.Validations>
+                            </material:TextField>
 
-                        <material:TextField Title="Phone" Keyboard="Numeric" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Email}}">
-                            <validation:RequiredValidation />
-                            <validation:RegexValidation Pattern="{x:Static input:AdvancedEntry.REGEX_PHONE}" Message="Invalid phone format  " />
-                        </material:TextField>
+                            <material:DatePickerField Title="Birthday" AllowClear="True"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Date_range}}" Date="{Binding Birthday}">
+                                <material:DatePickerField.Validations>
+                                    <validation:RequiredValidation/>
+                                </material:DatePickerField.Validations>
+                            </material:DatePickerField>
+                            <material:AutoCompleteTextField 
+                                  Title="City"
+                                  ItemsSource="{Binding Cities}"
+                                  Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Location_city}}"
+                                  Text="{Binding City}">
+                                <material:AutoCompleteTextField.Validations>
+                                    <validation:RequiredValidation />
+                                </material:AutoCompleteTextField.Validations>
+                            </material:AutoCompleteTextField>
 
-                        <material:TextField Title="Relatives phone" Keyboard="Numeric" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Email}}">
-                            <validation:RegexValidation Pattern="{x:Static input:AdvancedEntry.REGEX_PHONE}" Message="Invalid phone format  " />
-                        </material:TextField>
+                            <material:TextField Title="Call" Text="{Binding Call}" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular._10mp}}">
+                                <validation:RequiredValidation />
+                            </material:TextField>
 
+                            <material:TextField Title="Phone" Text="{Binding Phone}" Keyboard="Numeric" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Phone}}">
+                                <validation:RequiredValidation />
+                                <validation:RegexValidation Pattern="{x:Static input:AdvancedEntry.REGEX_PHONE}" Message="Invalid phone format  " />
+                            </material:TextField>
 
+                            <material:TextField Title="Relatives phone" Text="{Binding RelativesPhone}" Keyboard="Numeric" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Phone}}">
+                                <validation:RegexValidation Pattern="{x:Static input:AdvancedEntry.REGEX_PHONE}" Message="Invalid phone format  " />
+                            </material:TextField>
 
-                        <Button Command="{Binding  RegistrationCommand}" Text="Registrate" />
+                            <Button input:FormView.IsSubmitButton="True"   Text="Registrate" Margin="10" />
+                        </input:FormView>
                     </VerticalStackLayout>
                 </Border>
             </VerticalStackLayout>

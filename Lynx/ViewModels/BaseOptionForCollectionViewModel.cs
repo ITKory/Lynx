@@ -34,8 +34,7 @@ namespace Lynx.ViewModels
         public async Task LoadDataAsync(string path)
         {
             IsRefresh = true;
-            ItemsList =  await lynxService.GetRefreshDataListAsync<ListItemModel>(path);
-
+            ItemsList =  await lynxService.GetDataListAsync<ListItemModel>(path);
             if (ActiveItems.Count > 0)
                 ActiveItems.Clear();
 
@@ -47,7 +46,7 @@ namespace Lynx.ViewModels
                 if (item.IsActive)
                 {
 
-                    item.ItemColor = Color.FromArgb("#d3f2db");
+                    item.ItemColor = Color.FromArgb("#ffebd3");
                     ActiveItems.Add(item);
                 }
                 else

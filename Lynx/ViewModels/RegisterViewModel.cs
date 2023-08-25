@@ -16,7 +16,7 @@ namespace Lynx.ViewModels
 {
     public partial class RegisterViewModel:BaseViewModel
     {
-        JsonSerializerOptions _serializerOptions;
+       
         LynxApi _lynxService;
 
         [ObservableProperty]
@@ -28,6 +28,8 @@ namespace Lynx.ViewModels
         [NotifyPropertyChangedFor(nameof(NumCameras))]
         private CameraInfo camera;
 
+        [ObservableProperty]
+        bool isEnabled = true;
 
         [ObservableProperty]
         private ObservableCollection<CameraInfo> cameras = new();
@@ -40,16 +42,16 @@ namespace Lynx.ViewModels
         public ZXing.Result[] BarCodeResults
         {
             get => barCodeResults;
-            set
+            set  
             {
                 barCodeResults = value;
-                if (barCodeResults != null && barCodeResults.Length > 0)
+                if (barCodeResults != null && barCodeResults.Length > 0 && IsEnabled)
                 {
                     Seeker = JsonSerializer.Deserialize<SeekerRegistration>(barCodeResults[0].Text);
                     BarcodeText = barCodeResults[0].Text;   
                     try
                     {
-                        _lynxService.RegistrationSeekerAsync("api/departure/registration", Seeker.UserId, Seeker.SearchDepartureId,Seeker.StartAt);
+                         _lynxService.RegistrationSeekerAsync( Seeker.UserId, Seeker.SearchDepartureId,Seeker.StartAt);
                    
                     }catch(Exception  ex)
                     {
@@ -69,12 +71,11 @@ namespace Lynx.ViewModels
             if (NumCameras > 0)
                 Camera = Cameras.First();
         }
-       
+ 
         public async void Detected()
         {
-           await Toast.Make("Success registration seeker").Show();
-
-           await Shell.Current.GoToAsync(nameof(StatsPage));
+            IsEnabled = false;
+           await Shell.Current.GoToAsync("..");
         }
         public RegisterViewModel()
         {
@@ -86,13 +87,10 @@ namespace Lynx.ViewModels
                 PossibleFormats = { ZXing.BarcodeFormat.QR_CODE },
                 ReadMultipleCodes = false,
                 TryHarder = true,
-                TryInverted = true
+                TryInverted = true,
+                
             };
-            _serializerOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
-            };
+ 
         }
 
       
